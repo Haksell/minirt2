@@ -91,6 +91,12 @@
 // TODO: try vec3 of doubles
 typedef float	t_vec3 __attribute__((vector_size(16)));
 
+typedef struct s_ray {
+	t_vec3	origin;
+	t_vec3	direction;
+	float	distance;
+}	t_ray;
+
 typedef struct s_interval {
 	float	min;
 	float	max;
@@ -117,6 +123,7 @@ typedef struct s_data {
 /******************************************************************************/
 
 // display
+t_vec3	ray_at(t_ray ray, float t);
 int		render_frame(t_data *data);
 
 // mlx_tools

@@ -27,6 +27,7 @@ INCLUDES := -I./ -I./$(PATH_LIBFT) -I./$(PATH_MLX)
 LIBRARIES := -L$(PATH_LIBFT) -lft -lX11 -lXext -L$(PATH_MLX) -lmlx -lm
 
 SRCS += srcs/main.c
+SRCS += srcs/display/ray.c
 SRCS += srcs/display/render_frame.c
 SRCS += srcs/mlx_tools/handle_key_down.c
 SRCS += srcs/mlx_tools/init_minilibx.c
