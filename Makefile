@@ -43,8 +43,7 @@ $(OBJS): $(PATH_OBJS)/%.o: $(PATH_SRCS)/%.c $(HEADER) | $(PATH_OBJS)
 	@$(CC) -c $< -o $@ $(INCLUDES)
 	@echo "$(BLUE)✓ $@$(RESET)"
 
-$(NAME): $(LIBFT) $(MLX)
-	@$(MAKE) $(OBJS)
+$(NAME): $(OBJS) | $(LIBFT) $(MLX)
 	@$(CC) $(OBJS) $(LIBRARIES) -o $@
 	@echo "$(PINK)$@ is compiled.$(RESET)"
 
@@ -75,15 +74,19 @@ clean:
 fclean: clean
 	@rm -f $(NAME)
 
-re: fclean $(NAME)
+re: fclean
+	@$(MAKE) -s $(NAME)
 
 run: $(NAME)
-	@./$(NAME)
+	@./$(NAME) $(filter-out $@, $(MAKECMDGOALS))
 
 rerun: fclean
 	@$(MAKE) -s run
 
 norm:
 	@./scripts/niih $(PATH_LIBFT) $(HEADER) $(PATH_SRCS)
+
+%:
+	@true
 
 .PHONY: all clean fclean re run rerun norm
