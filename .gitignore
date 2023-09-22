@@ -1,0 +1,10 @@
+objs
+*.[ao]
+.vscode
+
+miniRT
+miniRTbonus
+minitest
+
+libft
+mlx
