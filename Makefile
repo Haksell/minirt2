@@ -35,7 +35,10 @@ OBJS := $(FILENAMES:$(PATH_SRCS)%=$(PATH_OBJS)%.o)
 
 all: $(NAME)
 
-$(OBJS): $(PATH_OBJS)/%.o: %.c $(HEADER)
+$(PATH_OBJS):
+	@mkdir -p $(FOLDERS:$(PATH_SRCS)%=$(PATH_OBJS)%)
+
+$(OBJS): $(PATH_OBJS)/%.o: $(PATH_SRCS)/%.c $(HEADER) | $(PATH_OBJS)
 	@mkdir -p $(PATH_OBJS)
 	@$(CC) -c $< -o $@ $(INCLUDES)
 	@echo "$(BLUE)✓ $@$(RESET)"
