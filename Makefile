@@ -83,4 +83,7 @@ run: $(NAME)
 rerun: fclean
 	@$(MAKE) -s run
 
-.PHONY: all clean fclean re run rerun
+norm:
+	@./scripts/niih $(PATH_LIBFT) $(HEADER) $(PATH_SRCS)
+
+.PHONY: all clean fclean re run rerun norm
