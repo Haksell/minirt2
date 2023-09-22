@@ -12,9 +12,7 @@ static unsigned int	get_random_uint(void)
 
 float	get_random_float(void)
 {
-	static unsigned long	max_plus_one = 1l << 32l;
-
-	return ((float)get_random_uint() / (float)max_plus_one);
+	return ((float)get_random_uint() * RANDOM_FLOAT_MULTIPLICATOR);
 }
 
 float	get_random_float_range(float min, float max)

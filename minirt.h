@@ -37,9 +37,9 @@
 # define READ_ERROR "Error while reading the file"
 # define INVALID_IDENTIFIER "Invalid identifier"
 
-# define float_AMBIENT "Too many ambient lights"
-# define float_CAMERA "Too many cameras"
-# define float_LIGHT "Too many lights"
+# define DOUBLE_AMBIENT "Too many ambient lights"
+# define DOUBLE_CAMERA "Too many cameras"
+# define DOUBLE_LIGHT "Too many lights"
 # define ERROR_AMBIENT "Error parsing ambient light"
 # define ERROR_CAMERA "Error parsing camera"
 # define ERROR_LIGHT "Error parsing light"
@@ -69,6 +69,8 @@
 # ifndef M_PI
 #  define M_PI 3.141592653589793
 # endif
+
+# define RANDOM_FLOAT_MULTIPLICATOR 0.00000000023283064365386962890625
 
 # define WINDOW_WIDTH 1920
 # define WINDOW_HEIGHT 1010

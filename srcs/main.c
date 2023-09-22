@@ -1,7 +1,5 @@
 #include "minirt.h"
 
-#include <stdio.h>
-
 int	main(__attribute__((unused)) int argc, char **argv)
 {
 	t_data	data;
