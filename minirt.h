@@ -36,9 +36,9 @@
 # define READ_ERROR "Error while reading the file"
 # define INVALID_IDENTIFIER "Invalid identifier"
 
-# define DOUBLE_AMBIENT "Too many ambient lights"
-# define DOUBLE_CAMERA "Too many cameras"
-# define DOUBLE_LIGHT "Too many lights"
+# define float_AMBIENT "Too many ambient lights"
+# define float_CAMERA "Too many cameras"
+# define float_LIGHT "Too many lights"
 # define ERROR_AMBIENT "Error parsing ambient light"
 # define ERROR_CAMERA "Error parsing camera"
 # define ERROR_LIGHT "Error parsing light"
@@ -88,11 +88,12 @@
 /*                                                                            */
 /******************************************************************************/
 
-typedef float	t_v3f __attribute__((vector_size(16)));
+// TODO: try vec3 of doubles
+typedef float	t_vec3 __attribute__((vector_size(16)));
 
 typedef struct s_interval {
-	double	min;
-	double	max;
+	float	min;
+	float	max;
 }	t_interval;
 
 typedef struct s_mlx {
@@ -129,7 +130,18 @@ bool	complain_bool(char *error_message);
 int		complain_int(char *error_message);
 void	*complain_ptr(char *error_message);
 void	free_data(t_data *data);
-bool	in_interval(t_interval interval, double x);
-bool	is_close(double x, double y);
+bool	in_interval(t_interval interval, float x);
+bool	is_close(float x, float y);
+void	print_vec3(char *name, t_vec3 v); // TODO remove
+
+// vec3
+float	vec3_dot(t_vec3 v1, t_vec3 v2);
+t_vec3	vec3_cross(t_vec3 v1, t_vec3 v2);
+bool	vec3_near_zero(t_vec3 v);
+float	vec3_length_squared(t_vec3 v);
+float	vec3_length(t_vec3 v);
+t_vec3	vec3_unit(t_vec3 v);
+float	vec3_dist_squared(t_vec3 v1, t_vec3 v2);
+float	vec3_dist(t_vec3 v1, t_vec3 v2);
 
 #endif

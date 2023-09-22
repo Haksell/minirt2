@@ -22,7 +22,7 @@ PINK := \033[1m\033[35m
 GARBAGE := .vscode
 YEET := 1>/dev/null 2>/dev/null
 
-CC := cc -Wall -Wextra -Werror -O3 -g3
+CC := cc -Wall -Wextra -Werror -Ofast -g3
 INCLUDES := -I./ -I./$(PATH_LIBFT) -I./$(PATH_MLX)
 LIBRARIES := -L$(PATH_LIBFT) -lft -lX11 -lXext -L$(PATH_MLX) -lmlx -lm
 
@@ -33,6 +33,9 @@ SRCS += srcs/mlx_tools/init_minilibx.c
 SRCS += srcs/utils/clean.c
 SRCS += srcs/utils/complain.c
 SRCS += srcs/utils/math.c
+SRCS += srcs/utils/print.c # TODO: remove
+SRCS += srcs/vec3/vec3a.c
+SRCS += srcs/vec3/vec3b.c
 
 FILENAMES := $(basename $(SRCS))
 FOLDERS := $(sort $(dir $(SRCS)))

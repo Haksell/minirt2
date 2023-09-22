@@ -9,14 +9,14 @@ int	clamp(int x, int min, int max)
 	return (x);
 }
 
-bool	is_close(double x, double y)
+bool	is_close(float x, float y)
 {
-	static double	epsilon = 1e-5;
+	static float	epsilon = 1e-5;
 
 	return (fabs(x - y) < epsilon);
 }
 
-bool	in_interval(t_interval interval, double x)
+bool	in_interval(t_interval interval, float x)
 {
 	return (interval.min <= x && x <= interval.max);
 }
