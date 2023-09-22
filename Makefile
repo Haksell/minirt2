@@ -3,13 +3,12 @@ NAME := miniRT
 PATH_SRCS := srcs
 PATH_OBJS := objs
 
-PATH_LIBFT := libft
-PATH_MLX := mlx
-
 LIBFT := $(PATH_LIBFT)/libft.a
-MLX := $(PATH_MLX)/libmlx.a
-
+PATH_LIBFT := libft
 LIBFT_REPO := git@github.com:Haksell/libft.git
+
+PATH_MLX := mlx
+MLX := $(PATH_MLX)/libmlx.a
 MLX_REPO := git@github.com:42Paris/minilibx-linux.git
 
 RESET := \033[0m
@@ -21,10 +20,8 @@ PINK := \033[1m\033[35m
 GARBAGE := .vscode
 YEET := 1>/dev/null 2>/dev/null
 
-INCLUDES := -I. -I./$(PATH_LIBFT) -I./$(PATH_MLX)
-HEADERS := minirt.h
-
 CC := cc -Wall -Wextra -Werror -O3 -g3
+INCLUDES := -I. -I./$(PATH_LIBFT) -I./$(PATH_MLX)
 LIBRARIES := -L$(PATH_LIBFT) -lft -lX11 -lXext -L$(PATH_MLX) -lmlx -lm
 
 HEADER := minirt.h
@@ -40,7 +37,7 @@ OBJS := $(patsubst %.c, $(PATH_OBJS)/%.o, $(SRCS))
 
 all: $(NAME)
 
-$(OBJS): $(PATH_OBJS)/%.o: %.c $(HEADERS)
+$(OBJS): $(PATH_OBJS)/%.o: %.c $(HEADER)
 	@mkdir -p $(PATH_OBJS)
 	@$(CC) -c $< -o $@ $(INCLUDES)
 	@echo "$(BLUE)✓ $@$(RESET)"
