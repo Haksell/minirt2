@@ -26,14 +26,12 @@ LIBRARIES := -L$(PATH_LIBFT) -lft -lX11 -lXext -L$(PATH_MLX) -lmlx -lm
 
 HEADER := minirt.h
 
-vpath %.c $(PATH_SRCS)/utils
-SRCS += complain
+SRCS += srcs/main.c
+SRCS += srcs/utils/complain.c
 
-vpath %.c $(PATH_SRCS)
-SRCS += main
-
-SRCS := $(addsuffix .c, $(SRCS))
-OBJS := $(patsubst %.c, $(PATH_OBJS)/%.o, $(SRCS))
+FILENAMES := $(basename $(SRCS))
+FOLDERS := $(sort $(dir $(SRCS)))
+OBJS := $(FILENAMES:$(PATH_SRCS)%=$(PATH_OBJS)%.o)
 
 all: $(NAME)
 
