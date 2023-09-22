@@ -1,0 +1,29 @@
+C	0,0,0		0,0,-1		120
+A	4.2						135,206,235
+
+L	-13,3,10	4.2			255,255,255
+L	2,2,2		4.2			255,155,55
+
+sp	1,0,-3		1	20,60,220	lambertian	0.8,0.7,0.3,5	none
+sp	1,0,-3		1	20,60,220	metal		0.2				none
+sp	1,0,-3		1	20,60,220	dilectric	1.5				none
+
+cy	4,2.5,-8		0,0,1	2	5	60,220,20
+pl	0,-0.5,-3	0,0.92,0.39191835884530846	150,150,170
+co
+hy
+pa
+tr
+qu
+
+lambertian ka kd ks specular_exponent
+metal fuzz
+dielectric ir
+light
+
+texture
+materiau
+bump map
+checkerboard
+light material
+skybox/texture
