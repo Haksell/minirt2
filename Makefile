@@ -23,11 +23,16 @@ GARBAGE := .vscode
 YEET := 1>/dev/null 2>/dev/null
 
 CC := cc -Wall -Wextra -Werror -O3 -g3
-INCLUDES := -I. -I./$(PATH_LIBFT) -I./$(PATH_MLX)
+INCLUDES := -I./ -I./$(PATH_LIBFT) -I./$(PATH_MLX)
 LIBRARIES := -L$(PATH_LIBFT) -lft -lX11 -lXext -L$(PATH_MLX) -lmlx -lm
 
 SRCS += srcs/main.c
+SRCS += srcs/display/render_frame.c
+SRCS += srcs/mlx_tools/handle_key_down.c
+SRCS += srcs/mlx_tools/init_minilibx.c
+SRCS += srcs/utils/clean.c
 SRCS += srcs/utils/complain.c
+SRCS += srcs/utils/math.c
 
 FILENAMES := $(basename $(SRCS))
 FOLDERS := $(sort $(dir $(SRCS)))
@@ -38,12 +43,12 @@ all: $(NAME)
 $(PATH_OBJS):
 	@mkdir -p $(FOLDERS:$(PATH_SRCS)%=$(PATH_OBJS)%)
 
-$(OBJS): $(PATH_OBJS)/%.o: $(PATH_SRCS)/%.c $(HEADER) | $(PATH_OBJS)
+$(OBJS): $(PATH_OBJS)/%.o: $(PATH_SRCS)/%.c $(HEADER) $(LIBFT) $(MLX) | $(PATH_OBJS)
 	@mkdir -p $(PATH_OBJS)
 	@$(CC) -c $< -o $@ $(INCLUDES)
 	@echo "$(BLUE)✓ $@$(RESET)"
 
-$(NAME): $(OBJS) | $(LIBFT) $(MLX)
+$(NAME): $(OBJS)
 	@$(CC) $(OBJS) $(LIBRARIES) -o $@
 	@echo "$(PINK)$@ is compiled.$(RESET)"
 
