@@ -14,6 +14,7 @@
 # include <limits.h>
 # include <math.h>
 # include <stdbool.h>
+# include <stdio.h> // TODO: remove
 # include <stdlib.h>
 # include <sys/stat.h>
 # include <sys/types.h>
@@ -69,8 +70,8 @@
 #  define M_PI 3.141592653589793
 # endif
 
-# define WINDOW_WIDTH 640
-# define WINDOW_HEIGHT 360
+# define WINDOW_WIDTH 1920
+# define WINDOW_HEIGHT 1010
 # define FRAMES 100
 # define MAX_DEPTH 25
 # define LIGHT_INTENSITY 100.0
