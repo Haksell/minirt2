@@ -35,6 +35,8 @@ SRCS += srcs/utils/clean.c
 SRCS += srcs/utils/complain.c
 SRCS += srcs/utils/math.c
 SRCS += srcs/utils/print.c # TODO: remove
+SRCS += srcs/utils/random_float.c
+SRCS += srcs/utils/random_vector.c
 SRCS += srcs/vec3/vec3a.c
 SRCS += srcs/vec3/vec3b.c
 

@@ -141,6 +141,13 @@ void	free_data(t_data *data);
 bool	in_interval(t_interval interval, float x);
 bool	is_close(float x, float y);
 void	print_vec3(char *name, t_vec3 v); // TODO remove
+float	get_random_float(void);
+float	get_random_float_range(float min, float max);
+t_vec3	get_random_in_hemisphere(t_vec3 normal);
+t_vec3	get_random_in_unit_disk(void);
+t_vec3	get_random_in_unit_sphere(void);
+t_vec3	get_random_unit_vector(void);
+int		sign(float x);
 
 // vec3
 float	vec3_dot(t_vec3 v1, t_vec3 v2);
