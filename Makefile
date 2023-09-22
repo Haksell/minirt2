@@ -15,17 +15,22 @@ MLX_REPO := git@github.com:42Paris/minilibx-linux.git
 RESET := \033[0m
 RED := \033[1m\033[31m
 GREEN := \033[1m\033[32m
+BLUE := \033[1m\033[34m
+PINK := \033[1m\033[35m
 
 GARBAGE := .vscode
 YEET := 1>/dev/null 2>/dev/null
 
-INCLUDES := -I./$(PATH_LIBFT)/includes -I./$(PATH_MLX)
+INCLUDES := -I. -I./$(PATH_LIBFT) -I./$(PATH_MLX)
 HEADERS := minirt.h
 
 CC := cc -Wall -Wextra -Werror -O3 -g3
 LIBRARIES := -L$(PATH_LIBFT) -lft -lX11 -lXext -L$(PATH_MLX) -lmlx -lm
 
 HEADER := minirt.h
+
+vpath %.c $(PATH_SRCS)/utils
+SRCS += complain
 
 vpath %.c $(PATH_SRCS)
 SRCS += main
@@ -37,10 +42,13 @@ all: $(NAME)
 
 $(OBJS): $(PATH_OBJS)/%.o: %.c $(HEADERS)
 	@mkdir -p $(PATH_OBJS)
-	$(CC) -c $< -o $@ $(INCLUDES)
+	@$(CC) -c $< -o $@ $(INCLUDES)
+	@echo "$(BLUE)✓ $@$(RESET)"
 
-$(NAME): $(LIBFT) $(MLX) $(OBJS)
-	$(CC) $(OBJS) $(LIBRARIES) -o $@
+$(NAME): $(LIBFT) $(MLX)
+	@$(MAKE) $(OBJS)
+	@$(CC) $(OBJS) $(LIBRARIES) -o $@
+	@echo "$(PINK)$@ is compiled.$(RESET)"
 
 $(PATH_LIBFT):
 	@echo "$(GREEN)==> Cloning libft$(RESET)"
