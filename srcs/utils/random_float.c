@@ -12,7 +12,7 @@ static unsigned int	get_random_uint(void)
 
 float	get_random_float(void)
 {
-	return ((float)get_random_uint() * RANDOM_FLOAT_MULTIPLICATOR);
+	return (RANDOM_FLOAT_MULTIPLICATOR * get_random_uint());
 }
 
 float	get_random_float_range(float min, float max)
