@@ -3,8 +3,8 @@ NAME := miniRT
 PATH_SRCS := srcs
 PATH_OBJS := objs
 
-LIBFT := $(PATH_LIBFT)/libft.a
 PATH_LIBFT := libft
+LIBFT := $(PATH_LIBFT)/libft.a
 LIBFT_REPO := git@github.com:Haksell/libft.git
 
 PATH_MLX := mlx
