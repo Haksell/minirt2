@@ -1,15 +1,28 @@
 #include "minirt.h"
 
-static void	pixel_put(t_mlx *mlx, int x, int y)
+static int	get_int_component(float x)
+{
+	return (clamp((int)(255.9999 * x), 0, 255));
+}
+
+static void	pixel_put(t_mlx *mlx, int x, int y, t_vec3 color)
 {
 	const int	offset = mlx->line_length * y + mlx->bytes_per_pixel * x;
+	const int	r = get_int_component(color[X]);
+	const int	g = get_int_component(color[Y]);
+	const int	b = get_int_component(color[Z]);
 
-	mlx->addr[offset] = x + y;
+	mlx->addr[offset] = r << 16 | g << 8 | b;
 }
 
 static void	render_pixel(t_data *data, int y, int x)
 {
-	pixel_put(&data->mlx, x, y);
+	const t_vec3	color = (t_vec3){
+		x * 1.0 / (WINDOW_WIDTH - 1),
+		y * 1.0 / (WINDOW_HEIGHT - 1),
+		1};
+
+	pixel_put(&data->mlx, x, y, color);
 }
 
 int	render_frame(t_data *data)
