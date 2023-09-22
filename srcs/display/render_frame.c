@@ -17,12 +17,16 @@ static void	pixel_put(t_mlx *mlx, int x, int y, t_vec3 color)
 
 static void	render_pixel(t_data *data, int y, int x)
 {
-	const t_vec3	color = (t_vec3){
-		x * 1.0 / (WINDOW_WIDTH - 1),
-		y * 1.0 / (WINDOW_HEIGHT - 1),
-		1};
+	const float		frame = (float)data->frame;
+	const t_vec3	pixel_color = (t_vec3){
+		get_random_float(),
+		get_random_float(),
+		get_random_float(),
+	};
 
-	pixel_put(&data->mlx, x, y, color);
+	data->pixels[y][x] = (data->pixels[y][x] * frame + pixel_color)
+		/ (frame + 1);
+	pixel_put(&data->mlx, x, y, data->pixels[y][x]);
 }
 
 int	render_frame(t_data *data)

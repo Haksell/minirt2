@@ -117,6 +117,7 @@ typedef struct s_mlx {
 typedef struct s_data {
 	int		frame;
 	t_mlx	mlx;
+	t_vec3	**pixels;
 }	t_data;
 
 /******************************************************************************/
@@ -140,15 +141,16 @@ bool	complain_bool(char *error_message);
 int		complain_int(char *error_message);
 void	*complain_ptr(char *error_message);
 void	free_data(t_data *data);
-bool	in_interval(t_interval interval, float x);
-bool	is_close(float x, float y);
-void	print_vec3(char *name, t_vec3 v); // TODO remove
 float	get_random_float(void);
 float	get_random_float_range(float min, float max);
 t_vec3	get_random_in_hemisphere(t_vec3 normal);
 t_vec3	get_random_in_unit_disk(void);
 t_vec3	get_random_in_unit_sphere(void);
 t_vec3	get_random_unit_vector(void);
+bool	in_interval(t_interval interval, float x);
+bool	init_pixels(t_data *data);
+bool	is_close(float x, float y);
+void	print_vec3(char *name, t_vec3 v); // TODO remove
 int		sign(float x);
 
 // vec3

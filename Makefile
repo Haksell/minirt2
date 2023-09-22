@@ -33,6 +33,7 @@ SRCS += srcs/mlx_tools/handle_key_down.c
 SRCS += srcs/mlx_tools/init_minilibx.c
 SRCS += srcs/utils/clean.c
 SRCS += srcs/utils/complain.c
+SRCS += srcs/utils/init_pixels.c
 SRCS += srcs/utils/math.c
 SRCS += srcs/utils/print.c # TODO: remove
 SRCS += srcs/utils/random_float.c
