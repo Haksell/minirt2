@@ -1,4 +1,6 @@
 NAME := miniRT
+HEADER := minirt.h
+DEFAULT_SCENE := scenes/valid/image21.rt
 
 PATH_SRCS := srcs
 PATH_OBJS := objs
@@ -23,8 +25,6 @@ YEET := 1>/dev/null 2>/dev/null
 CC := cc -Wall -Wextra -Werror -O3 -g3
 INCLUDES := -I. -I./$(PATH_LIBFT) -I./$(PATH_MLX)
 LIBRARIES := -L$(PATH_LIBFT) -lft -lX11 -lXext -L$(PATH_MLX) -lmlx -lm
-
-HEADER := minirt.h
 
 SRCS += srcs/main.c
 SRCS += srcs/utils/complain.c
@@ -78,7 +78,11 @@ re: fclean
 	@$(MAKE) -s $(NAME)
 
 run: $(NAME)
-	@./$(NAME) $(filter-out $@, $(MAKECMDGOALS))
+	@if [ "$(filter-out $@, $(MAKECMDGOALS))" = "" ]; then \
+		./$(NAME) $(DEFAULT_SCENE); \
+	else \
+		./$(NAME) $(firstword $(filter-out $@, $(MAKECMDGOALS))); \
+	fi
 
 rerun: fclean
 	@$(MAKE) -s run
