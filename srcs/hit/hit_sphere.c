@@ -4,20 +4,20 @@ static bool	get_root(t_ray *ray, const t_sphere *sphere, t_interval interval,
 	float *root)
 {
 	const t_vec3	oc = ray->origin - sphere->center;
-	const float		a = vec3_length_squared(ray->direction);
-	const float		half_b = vec3_dot(oc, ray->direction);
-	const float		c = vec3_length_squared(oc)
+	const float		aa = vec3_length_squared(ray->direction);
+	const float		minus_half_b = -vec3_dot(oc, ray->direction);
+	const float		cc = vec3_length_squared(oc)
 		- sphere->radius * sphere->radius;
 	float			discriminant;
 
-	discriminant = half_b * half_b - a * c;
+	discriminant = minus_half_b * minus_half_b - aa * cc;
 	if (discriminant < 0)
 		return (false);
 	discriminant = sqrt(discriminant);
-	*root = (-half_b - discriminant) / a;
+	*root = (minus_half_b - discriminant) / aa;
 	if (in_interval(interval, *root))
 		return (true);
-	*root = (-half_b + discriminant) / a;
+	*root = (minus_half_b + discriminant) / aa;
 	return (in_interval(interval, *root));
 }
 
