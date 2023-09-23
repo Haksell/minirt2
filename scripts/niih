@@ -32,9 +32,7 @@ lines = (
     .strip()
     .split("\n")
 )
-# print(lines)
 groups = [list(v) for _, v in groupby(lines, key=lambda s: s.startswith("Error: "))]
-# pprint(groups)
 for file, errors in zip(groups[0::2], groups[1::2]):
     if len(errors) == 1 and "INVALID_HEADER" in errors[0]:
         invalid_headers += 1
