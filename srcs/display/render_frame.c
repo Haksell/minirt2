@@ -17,20 +17,18 @@ static void	pixel_put(t_mlx *mlx, int x, int y, t_vec3 color)
 
 static t_vec3	raytracing(t_ray ray, t_scene *scene, int depth)
 {
-	t_hit	hit;
-	t_ray	scattered;
-	t_vec3	color;
+	static const t_interval	start_interval = (t_interval){
+		SHADOW_ACNE_FIX, INFINITY};
+	t_hit					hit;
+	t_ray					scattered;
+	t_vec3					color;
 
-	if (depth <= 0)
+	if (depth <= 0 || !hit_world(&hit, scene, &ray, start_interval))
 		return (scene->ambient.color);
-	if (hit_world(&hit, scene, &ray, (t_interval){SHADOW_ACNE_FIX, INFINITY}))
-	{
-		color = get_color(scene, &hit, ray);
-		if (scatter(ray, hit, &scattered))
-			return (color * raytracing(scattered, scene, depth - 1));
-		return (color);
-	}
-	return (scene->ambient.color);
+	color = get_color(scene, &hit, ray);
+	if (scatter(ray, hit, &scattered))
+		return (color * raytracing(scattered, scene, depth - 1));
+	return (color);
 }
 
 static void	render_pixel(t_data *data, int y, int x)
