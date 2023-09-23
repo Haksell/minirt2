@@ -28,6 +28,14 @@ FILENAMES += display/ray
 FILENAMES += display/render_frame
 FILENAMES += mlx_tools/handle_key_down
 FILENAMES += mlx_tools/init_minilibx
+FILENAMES += parsing/ft_atof
+FILENAMES += parsing/get_commas
+FILENAMES += parsing/get_words
+FILENAMES += parsing/parse_elements
+FILENAMES += parsing/parse_objects
+FILENAMES += parsing/parse_scene
+FILENAMES += parsing/parse_vectors
+FILENAMES += utils/arrays
 FILENAMES += utils/clean
 FILENAMES += utils/complain
 FILENAMES += utils/init_pixels
@@ -52,7 +60,7 @@ $(PATH_OBJS):
 $(OBJS): $(PATH_OBJS)/%.o: $(PATH_SRCS)/%.c $(HEADER) $(LIBFT) $(MLX) | $(PATH_OBJS)
 	@mkdir -p $(PATH_OBJS)
 	@$(CC) -c $< -o $@ $(INCLUDES)
-	@echo "$(BLUE)+ $@$(RESET)"
+	@echo "$(BLUE)+++ $@$(RESET)"
 
 $(NAME): $(OBJS)
 	@$(CC) $(OBJS) $(LIBRARIES) -o $@
@@ -78,9 +86,9 @@ $(MLX): | $(PATH_MLX)
 
 clean:
 	@rm -rf $(PATH_LIBFT) $(PATH_MLX)
-	@echo "$(RED)Libraries removed.$(RESET)"
+	@echo "$(RED)[X] Libraries removed.$(RESET)"
 	@rm -rf $(PATH_OBJS) $(GARBAGE)
-	@echo "$(RED)Objects removed.$(RESET)"
+	@echo "$(RED)[X] Objects removed.$(RESET)"
 
 fclean: clean
 	@rm -f $(NAME)

@@ -85,14 +85,14 @@
 # define SURFACES_PLANE 1
 # define SURFACES_SPHERE 1
 
-/******************************************************************************/
-/*                                                                            */
-/*                                  TYPEDEFS                                  */
-/*                                                                            */
-/******************************************************************************/
-
 // TODO: try vec3 of doubles
 typedef float	t_vec3 __attribute__((vector_size(16)));
+
+/******************************************************************************/
+/*                                                                            */
+/*                                   BASIC                                    */
+/*                                                                            */
+/******************************************************************************/
 
 typedef struct s_ray {
 	t_vec3	origin;
@@ -105,6 +105,155 @@ typedef struct s_interval {
 	float	max;
 }	t_interval;
 
+/******************************************************************************/
+/*                                                                            */
+/*                                 MATERIALS                                  */
+/*                                                                            */
+/******************************************************************************/
+
+typedef struct t_dielectric {
+	t_vec3	albedo;
+	float	ir;
+}	t_dielectric;
+
+typedef struct t_lambertian {
+	t_vec3	albedo;
+	float	ka;
+	float	kd;
+	float	ks;
+	float	specular_exponent;
+}	t_lambertian;
+
+typedef struct t_metal {
+	t_vec3	albedo;
+	float	fuzz;
+}	t_metal;
+
+typedef enum e_material_type {
+	MATERIAL_DIELECTRIC = 0,
+	MATERIAL_LAMBERTIAN,
+	MATERIAL_METAL,
+}	t_material_type;
+
+typedef union u_material_union {
+	t_dielectric	dielectric;
+	t_lambertian	lambertian;
+	t_metal			metal;
+}	t_material_union;
+
+typedef struct t_material {
+	t_material_type		type;
+	t_material_union	u;
+}	t_material;
+
+/******************************************************************************/
+/*                                                                            */
+/*                                  OBJECTS                                   */
+/*                                                                            */
+/******************************************************************************/
+
+typedef struct s_sphere {
+	t_vec3		center;
+	float		radius;
+	t_vec3		color;
+	t_material	material;
+}	t_sphere;
+
+typedef struct s_plane {
+	t_vec3		coord;
+	t_vec3		vector;
+	t_vec3		color;
+	t_material	material;
+}	t_plane;
+
+typedef struct s_disk {
+	t_plane	plane;
+	float	radius;
+}	t_disk;
+
+typedef struct s_tube {
+	t_vec3		center;
+	t_vec3		axis;
+	float		radius;
+	float		half_height;
+	t_vec3		color;
+	t_material	material;
+}	t_tube;
+
+typedef enum e_object_type {
+	OBJECT_DISK = 0,
+	OBJECT_PLANE,
+	OBJECT_SPHERE,
+	OBJECT_TUBE
+}	t_object_type;
+
+typedef union u_object_union {
+	t_disk		disk;
+	t_plane		plane;
+	t_sphere	sphere;	
+	t_tube		tube;
+}	t_object_union;
+
+typedef struct s_object {
+	t_object_type	type;
+	t_object_union	u;
+}	t_object;
+
+/******************************************************************************/
+/*                                                                            */
+/*                                  ELEMENTS                                  */
+/*                                                                            */
+/******************************************************************************/
+
+typedef struct s_ambient {
+	bool	exists;
+	t_vec3	color;
+}	t_ambient;
+
+typedef struct s_camera {
+	bool	exists;
+	float	aspect_ratio;
+	float	viewport_width;
+	float	viewport_height;
+	float	lens_radius;
+	float	focus_dist;
+	t_vec3	origin;
+	t_vec3	orientation;
+	t_vec3	lower_left;
+	t_vec3	horizontal;
+	t_vec3	vertical;
+	t_vec3	u;
+	t_vec3	v;
+}	t_camera;
+
+typedef struct s_light {
+	t_vec3	coord;
+	t_vec3	color;
+}	t_light;
+
+/******************************************************************************/
+/*                                                                            */
+/*                                  GENERAL                                   */
+/*                                                                            */
+/******************************************************************************/
+
+typedef struct s_hit {
+	bool		front_face;
+	float		t;
+	t_vec3		point;
+	t_vec3		normal;
+	t_material	material;
+}	t_hit;
+
+typedef struct s_scene {
+	t_ambient	ambient;
+	t_camera	camera;
+	t_light		*lights;
+	t_object	*world;
+	int			nb_obj;
+	int			nb_lights;
+}	t_scene;
+
 typedef struct s_mlx {
 	int		bytes_per_pixel;
 	int		line_length;
@@ -116,8 +265,10 @@ typedef struct s_mlx {
 
 typedef struct s_data {
 	int		frame;
+	bool	stop;
 	t_mlx	mlx;
 	t_vec3	**pixels;
+	t_scene	scene;
 }	t_data;
 
 /******************************************************************************/
@@ -125,6 +276,8 @@ typedef struct s_data {
 /*                                 PROTOTYPES                                 */
 /*                                                                            */
 /******************************************************************************/
+
+typedef bool	(*t_scatter_func)(t_ray, t_hit, t_ray *);
 
 // display
 t_vec3	ray_at(t_ray ray, float t);
@@ -134,7 +287,26 @@ int		render_frame(t_data *data);
 int		handle_key_down(int keycode, t_data *data);
 bool	init_minilibx(t_mlx *mlx, char *window_title);
 
+// parsing
+bool	ft_atof(char *s, float *ans);
+bool	ft_atof_range(char *s, float *ans, float min, float max);
+bool	get_commas2(char *s, char **s2);
+bool	get_commas3(char *s, char **s2, char **s3);
+bool	get_commas4(char *s, char **s2, char **s3, char **s4);
+char	***get_words(char *filename);
+bool	parse_ambient(t_scene *scene, char **line);
+bool	parse_camera(t_scene *scene, char **line);
+bool	parse_color(char *s, t_vec3 *color);
+bool	parse_coord(char *s, t_vec3 *coord);
+bool	parse_cylinder(t_scene *scene, char **line, int *current_object);
+bool	parse_lights(t_scene *scene, char **line);
+bool	parse_normalized_vector(char *s, t_vec3 *vector);
+bool	parse_plane(t_scene *scene, char **line, int *current_object);
+bool	parse_scene(t_scene *scene, int argc, char **argv);
+bool	parse_sphere(t_scene *scene, char **line, int *current_object);
+
 // utils
+int		arrlen(char **lines);
 int		clamp(int x, int min, int max);
 int		close_window(t_data *data);
 bool	complain_bool(char *error_message);
@@ -147,6 +319,7 @@ t_vec3	get_random_in_hemisphere(t_vec3 normal);
 t_vec3	get_random_in_unit_disk(void);
 t_vec3	get_random_in_unit_sphere(void);
 t_vec3	get_random_unit_vector(void);
+bool	includes(char **arr, char *s);
 bool	in_interval(t_interval interval, float x);
 bool	init_pixels(t_data *data);
 bool	is_close(float x, float y);

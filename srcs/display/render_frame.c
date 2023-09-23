@@ -31,9 +31,6 @@ static void	render_pixel(t_data *data, int y, int x)
 
 int	render_frame(t_data *data)
 {
-	// const float	aspect_ratio = (float)WINDOW_WIDTH / (float)WINDOW_HEIGHT;
-	// const float viewport_height = 2.0;
-	// const float viewport_width = aspect_ratio * viewport_height;
 	int			y;
 	int			x;
 

@@ -13,6 +13,7 @@ bool	is_close(float x, float y)
 {
 	static float	epsilon = 1e-5;
 
+	printf("x: %f, y: %f\n", x, y);
 	return (fabs(x - y) < epsilon);
 }
 
