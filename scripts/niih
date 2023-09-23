@@ -2,7 +2,6 @@
 
 from dataclasses import dataclass
 from itertools import groupby
-from pprint import pprint
 import subprocess
 import sys
 
