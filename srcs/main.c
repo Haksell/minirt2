@@ -1,6 +1,6 @@
 #include "minirt.h"
 
-int	main(__attribute__((unused)) int argc, char **argv)
+int	main(int argc, char **argv)
 {
 	t_data	data;
 
