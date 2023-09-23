@@ -118,11 +118,7 @@ re: fclean
 	@$(MAKE) -s $(NAME)
 
 run: $(NAME)
-	@if [ "$(filter-out $@, $(MAKECMDGOALS))" = "" ]; then \
-		./$(NAME) $(DEFAULT_SCENE); \
-	else \
-		./$(NAME) $(firstword $(filter-out $@, $(MAKECMDGOALS))); \
-	fi
+	@./$(NAME) $(or $(firstword $(filter-out $@, $(MAKECMDGOALS))), $(DEFAULT_SCENE))
 
 rerun: fclean
 	@$(MAKE) -s run
