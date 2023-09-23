@@ -24,8 +24,17 @@ INCLUDES := -I./ -I./$(PATH_LIBFT) -I./$(PATH_MLX)
 LIBRARIES := -L$(PATH_LIBFT) -lft -lX11 -lXext -L$(PATH_MLX) -lmlx -lm
 
 FILENAMES += main
+FILENAMES += display/get_color
+FILENAMES += display/light_effects
+FILENAMES += display/phong
 FILENAMES += display/ray
 FILENAMES += display/render_frame
+FILENAMES += display/scatter
+FILENAMES += hit/hit_disk
+FILENAMES += hit/hit_plane
+FILENAMES += hit/hit_sphere
+FILENAMES += hit/hit_tube
+FILENAMES += hit/hit_world
 FILENAMES += mlx_tools/handle_key_down
 FILENAMES += mlx_tools/init_minilibx
 FILENAMES += parsing/ft_atof

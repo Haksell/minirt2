@@ -72,8 +72,8 @@
 
 # define RANDOM_FLOAT_MULTIPLICATOR 0.00000000023283064365386962890625
 
-# define WINDOW_WIDTH 1920
-# define WINDOW_HEIGHT 1010
+# define WINDOW_WIDTH 640
+# define WINDOW_HEIGHT 360
 # define FRAMES 100
 # define MAX_DEPTH 25
 # define LIGHT_INTENSITY 100.0
@@ -280,8 +280,33 @@ typedef struct s_data {
 typedef bool	(*t_scatter_func)(t_ray, t_hit, t_ray *);
 
 // display
+t_vec3	get_color(t_scene *scene, t_hit *hit, t_ray ray);
+t_vec3	get_ambient_color(t_scene *scene, t_hit *hit);
+t_vec3	get_diffuse_color(t_light *light, t_hit *hit, t_ray *light_ray);
+t_vec3	get_specular_color(t_light *light, t_hit *hit, t_ray *ray,
+			t_ray *light_ray);
+t_ray	get_ray(const t_camera *camera, float s, float t);
 t_vec3	ray_at(t_ray ray, float t);
+t_vec3	reflect(t_vec3 v, t_vec3 n);
+float	reflectance(float cosine, float ref_idx);
+t_vec3	refract(t_vec3 v, t_vec3 n, float ir);
 int		render_frame(t_data *data);
+bool	scatter(t_ray ray, t_hit hit, t_ray *scattered);
+void	set_face_normal(t_hit *hit, t_ray *ray, t_vec3 *outward_normal);
+
+
+// hit
+bool	hit_disk(t_hit *hit, const t_disk *disk, t_ray *ray,
+			t_interval interval);
+bool	hit_sphere(t_hit *hit, const t_sphere *sphere, t_ray *ray,
+			t_interval interval);
+bool	hit_plane(t_hit *hit, const t_plane *plane, t_ray *ray,
+			t_interval interval);
+bool	hit_tube(t_hit *hit, const t_tube *tube, t_ray *ray,
+			t_interval interval);
+bool	hit_world(t_hit *hit, t_scene *scene, t_ray *ray,
+			t_interval interval);
+bool	hit_world_light(t_scene *scene, t_ray *ray, t_interval interval);
 
 // mlx_tools
 int		handle_key_down(int keycode, t_data *data);
