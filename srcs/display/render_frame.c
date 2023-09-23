@@ -36,8 +36,8 @@ static t_vec3	raytracing(t_ray ray, t_scene *scene, int depth)
 static void	render_pixel(t_data *data, int y, int x)
 {
 	const float		frame = (float)data->frame;
-	const float	u = (x + get_random_float()) / WINDOW_WIDTH;
-	const float	v = (WINDOW_HEIGHT - y - 1 + get_random_float())
+	const float		u = (x + get_random_float()) / WINDOW_WIDTH;
+	const float		v = (WINDOW_HEIGHT - y - 1 + get_random_float())
 		/ WINDOW_HEIGHT;
 	const t_ray		ray = get_ray(&data->scene.camera, u, v);
 	const t_vec3	pixel_color = raytracing(ray, &data->scene, MAX_DEPTH);

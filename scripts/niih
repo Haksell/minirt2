@@ -2,6 +2,7 @@
 
 from dataclasses import dataclass
 from itertools import groupby
+from pprint import pprint
 import subprocess
 import sys
 
@@ -32,13 +33,15 @@ lines = (
     .strip()
     .split("\n")
 )
+# print(lines)
 groups = [list(v) for _, v in groupby(lines, key=lambda s: s.startswith("Error: "))]
+# pprint(groups)
 for file, errors in zip(groups[0::2], groups[1::2]):
     if len(errors) == 1 and "INVALID_HEADER" in errors[0]:
         invalid_headers += 1
     elif len(errors) != 0:
         perfect = False
-        print(file[0], *errors, sep="\n")
+        print(file[-1], *errors, sep="\n")
 if not perfect:
     sys.exit(1)
 if invalid_headers != 0:
