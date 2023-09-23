@@ -9,7 +9,6 @@ int	main(__attribute__((unused)) int argc, char **argv)
 		|| !init_pixels(&data)
 		|| !init_minilibx(&data.mlx, argv[1]))
 	{
-		puts(argv[1]);
 		free_data(&data);
 		return (EXIT_FAILURE);
 	}

@@ -59,7 +59,6 @@ bool	parse_coord(char *s, t_vec3 *coord)
 
 bool	parse_normalized_vector(char *s, t_vec3 *vector)
 {
-	printf("parse_normalized_vector: %s\n", s);
 	return (parse_coord(s, vector)
 		&& is_close(vec3_length_squared(*vector), 1));
 }

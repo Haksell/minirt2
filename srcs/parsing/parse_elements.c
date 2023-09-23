@@ -39,9 +39,6 @@ bool	parse_camera(t_scene *scene, char **line)
 	const int	length = arrlen(line);
 	float		fov;
 
-	puts(line[0]);
-	puts(line[1]);
-	puts(line[2]);
 	if (scene->camera.exists)
 		return (complain_bool(DOUBLE_CAMERA));
 	if (length != 4
