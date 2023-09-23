@@ -61,6 +61,24 @@ PATH_OBJS := objs
 SRCS := $(addprefix $(PATH_SRCS)/, $(addsuffix .c, $(FILENAMES)))
 OBJS := $(addprefix $(PATH_OBJS)/, $(addsuffix .o, $(FILENAMES)))
 
+define clone_repo
+	@echo "$(GREEN)==> Cloning $(1)$(RESET)"
+	@git clone $(2) $(3) $(YEET)
+	@rm -rf $(3)/.git*
+endef
+
+define compile_target
+	@echo "$(GREEN)==> Compiling $(1)$(RESET)"
+	@$(MAKE) -s -C $(2) $(YEET)
+endef
+
+define remove_target
+@if [ -e "$(1)" ]; then \
+	rm -rf "$(1)"; \
+	echo "$(RED)[X] $(1) removed.$(RESET)"; \
+fi
+endef
+
 all: $(NAME)
 
 $(PATH_OBJS):
@@ -76,31 +94,25 @@ $(NAME): $(OBJS)
 	@echo "$(PINK)$@ is compiled.$(RESET)"
 
 $(PATH_LIBFT):
-	@echo "$(GREEN)==> Cloning libft$(RESET)"
-	@git clone $(LIBFT_REPO) $@ $(YEET)
-	@rm -rf $(PATH_LIBFT)/.git*
+	$(call clone_repo,libft,$(LIBFT_REPO),$@)
 
 $(LIBFT): | $(PATH_LIBFT)
-	@echo "$(GREEN)==> Compiling libft$(RESET)"
-	@$(MAKE) -s -C $(PATH_LIBFT) $(YEET)
+	$(call compile_target,libft,$(PATH_LIBFT))
 
 $(PATH_MLX):
-	@echo "$(GREEN)==> Cloning mlx$(RESET)"
-	@git clone $(MLX_REPO) $@ $(YEET)
-	@rm -rf $(PATH_MLX)/.git*
+	$(call clone_repo,mlx,$(MLX_REPO),$@)
 
 $(MLX): | $(PATH_MLX)
-	@echo "$(GREEN)==> Compiling mlx$(RESET)"
-	@$(MAKE) -s -C $(PATH_MLX) $(YEET)
+	$(call compile_target,mlx,$(PATH_MLX))
 
 clean:
-	@rm -rf $(PATH_LIBFT) $(PATH_MLX)
-	@echo "$(RED)[X] Libraries removed.$(RESET)"
-	@rm -rf $(PATH_OBJS) $(GARBAGE)
-	@echo "$(RED)[X] Objects removed.$(RESET)"
+	@rm -rf $(GARBAGE)
+	$(call remove_target,$(PATH_LIBFT))
+	$(call remove_target,$(PATH_MLX))
+	$(call remove_target,$(PATH_OBJS))
 
 fclean: clean
-	@rm -f $(NAME)
+	$(call remove_target,$(NAME))
 
 re: fclean
 	@$(MAKE) -s $(NAME)

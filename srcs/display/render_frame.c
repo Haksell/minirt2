@@ -47,8 +47,8 @@ static void	render_pixel(t_data *data, int y, int x)
 
 int	render_frame(t_data *data)
 {
-	int			y;
-	int			x;
+	int	y;
+	int	x;
 
 	if (data->frame == FRAMES)
 		return (EXIT_SUCCESS);
