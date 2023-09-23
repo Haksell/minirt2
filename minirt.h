@@ -294,7 +294,6 @@ int		render_frame(t_data *data);
 bool	scatter(t_ray ray, t_hit hit, t_ray *scattered);
 void	set_face_normal(t_hit *hit, t_ray *ray, t_vec3 *outward_normal);
 
-
 // hit
 bool	hit_disk(t_hit *hit, const t_disk *disk, t_ray *ray,
 			t_interval interval);

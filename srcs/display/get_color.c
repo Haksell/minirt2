@@ -27,9 +27,8 @@ t_vec3	get_color(t_scene *scene, t_hit *hit, t_ray ray)
 		compute_light_ray(&light_ray, light, hit);
 		if (!hit_world_light(scene, &light_ray,
 				(t_interval){SHADOW_ACNE_FIX, light_ray.distance}))
-			color = color
-				+ get_diffuse_color(light, hit, &light_ray)
-				+ get_specular_color(light, hit, &ray, &light_ray); // TODO: color += ?
+			color += get_diffuse_color(light, hit, &light_ray)
+				+ get_specular_color(light, hit, &ray, &light_ray);
 		++i;
 	}
 	return (color);
