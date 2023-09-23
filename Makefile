@@ -2,9 +2,6 @@ NAME := miniRT
 HEADER := minirt.h
 DEFAULT_SCENE := scenes/valid/image21.rt
 
-PATH_SRCS := srcs
-PATH_OBJS := objs
-
 PATH_LIBFT := libft
 LIBFT := $(PATH_LIBFT)/libft.a
 LIBFT_REPO := git@github.com:Haksell/libft.git
@@ -22,38 +19,40 @@ PINK := \033[1m\033[35m
 GARBAGE := .vscode
 YEET := 1>/dev/null 2>/dev/null
 
-CC := cc -Wall -Wextra -Werror -Ofast -g3
+CC := cc -Wall -Wextra -Werror -Ofast -mavx -g3
 INCLUDES := -I./ -I./$(PATH_LIBFT) -I./$(PATH_MLX)
 LIBRARIES := -L$(PATH_LIBFT) -lft -lX11 -lXext -L$(PATH_MLX) -lmlx -lm
 
-SRCS += srcs/main.c
-SRCS += srcs/display/ray.c
-SRCS += srcs/display/render_frame.c
-SRCS += srcs/mlx_tools/handle_key_down.c
-SRCS += srcs/mlx_tools/init_minilibx.c
-SRCS += srcs/utils/clean.c
-SRCS += srcs/utils/complain.c
-SRCS += srcs/utils/init_pixels.c
-SRCS += srcs/utils/math.c
-SRCS += srcs/utils/print.c # TODO: remove
-SRCS += srcs/utils/random_float.c
-SRCS += srcs/utils/random_vector.c
-SRCS += srcs/vec3/vec3a.c
-SRCS += srcs/vec3/vec3b.c
+FILENAMES += main
+FILENAMES += display/ray
+FILENAMES += display/render_frame
+FILENAMES += mlx_tools/handle_key_down
+FILENAMES += mlx_tools/init_minilibx
+FILENAMES += utils/clean
+FILENAMES += utils/complain
+FILENAMES += utils/init_pixels
+FILENAMES += utils/math
+FILENAMES += utils/print # TODO: remove
+FILENAMES += utils/random_float
+FILENAMES += utils/random_vector
+FILENAMES += vec3/vec3a
+FILENAMES += vec3/vec3b
 
-FILENAMES := $(basename $(SRCS))
-FOLDERS := $(sort $(dir $(SRCS)))
-OBJS := $(FILENAMES:$(PATH_SRCS)%=$(PATH_OBJS)%.o)
+PATH_SRCS := srcs
+PATH_OBJS := objs
+
+SRCS := $(addprefix $(PATH_SRCS)/, $(addsuffix .c, $(FILENAMES)))
+OBJS := $(addprefix $(PATH_OBJS)/, $(addsuffix .o, $(FILENAMES)))
 
 all: $(NAME)
 
 $(PATH_OBJS):
-	@mkdir -p $(FOLDERS:$(PATH_SRCS)%=$(PATH_OBJS)%)
+	@mkdir -p $(sort $(dir $(OBJS)))
 
 $(OBJS): $(PATH_OBJS)/%.o: $(PATH_SRCS)/%.c $(HEADER) $(LIBFT) $(MLX) | $(PATH_OBJS)
 	@mkdir -p $(PATH_OBJS)
 	@$(CC) -c $< -o $@ $(INCLUDES)
-	@echo "$(BLUE)✓ $@$(RESET)"
+	@echo "$(BLUE)+ $@$(RESET)"
 
 $(NAME): $(OBJS)
 	@$(CC) $(OBJS) $(LIBRARIES) -o $@
