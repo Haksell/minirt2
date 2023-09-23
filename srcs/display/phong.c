@@ -36,7 +36,7 @@ t_vec3	get_specular_color(t_light *light, t_hit *hit,
 	return (light->color
 		* LIGHT_INTENSITY
 		* hit->material.u.lambertian.ks
-		/ light_ray->distance / light_ray->distance * powf(fmaxf(0,
+		/ (light_ray->distance * light_ray->distance) * powf(fmaxf(0,
 				-vec3_dot(reflection_direction, vec3_unit(ray->direction))),
 			hit->material.u.lambertian.specular_exponent));
 }
