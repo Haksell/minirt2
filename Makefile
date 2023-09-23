@@ -63,13 +63,13 @@ OBJS := $(addprefix $(PATH_OBJS)/, $(addsuffix .o, $(FILENAMES)))
 
 define clone_repo
 	@echo "$(GREEN)==> Cloning $(1)$(RESET)"
-	@git clone $(2) $(3) $(YEET)
-	@rm -rf $(3)/.git*
+	@git clone $(2) $(1) $(YEET)
+	@rm -rf $(1)/.git*
 endef
 
 define compile_target
 	@echo "$(GREEN)==> Compiling $(1)$(RESET)"
-	@$(MAKE) -s -C $(2) $(YEET)
+	@$(MAKE) -s -C $(1) $(YEET)
 endef
 
 define remove_target
@@ -94,16 +94,16 @@ $(NAME): $(OBJS)
 	@echo "$(PINK)$@ is compiled.$(RESET)"
 
 $(PATH_LIBFT):
-	$(call clone_repo,libft,$(LIBFT_REPO),$@)
+	$(call clone_repo,$(PATH_LIBFT),$(LIBFT_REPO))
 
 $(LIBFT): | $(PATH_LIBFT)
-	$(call compile_target,libft,$(PATH_LIBFT))
+	$(call compile_target,$(PATH_LIBFT))
 
 $(PATH_MLX):
-	$(call clone_repo,mlx,$(MLX_REPO),$@)
+	$(call clone_repo,$(PATH_MLX),$(MLX_REPO))
 
 $(MLX): | $(PATH_MLX)
-	$(call compile_target,mlx,$(PATH_MLX))
+	$(call compile_target,$(PATH_MLX))
 
 clean:
 	@rm -rf $(GARBAGE)
