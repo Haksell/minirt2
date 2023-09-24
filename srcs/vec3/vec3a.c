@@ -18,9 +18,7 @@ t_vec3	vec3_cross(t_vec3 v1, t_vec3 v2)
 
 bool	vec3_near_zero(t_vec3 v)
 {
-	static float	epsilon = 1e-8;
+	static float	eps = 1e-8;
 
-	return (fabs(v[X]) < epsilon
-		&& fabs(v[Y]) < epsilon
-		&& fabs(v[Z]) < epsilon);
+	return (fabs(v[X]) < eps && fabs(v[Y]) < eps && fabs(v[Z]) < eps);
 }
