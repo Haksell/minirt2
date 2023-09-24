@@ -40,7 +40,7 @@ static void	render_pixel(t_data *data, int y, int x)
 		/ WINDOW_HEIGHT;
 	const t_ray		ray = get_ray(&data->scene.camera, u, v);
 	t_vec3			pixel_color;
-	
+
 	pixel_color = raytracing(ray, &data->scene, MAX_DEPTH);
 	pixel_color = (t_vec3){
 		fclampf(pixel_color[X], 0, 1),
