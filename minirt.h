@@ -339,7 +339,6 @@ void	*complain_ptr(char *error_message);
 void	free_data(t_data *data);
 float	get_random_float(void);
 float	get_random_float_range(float min, float max);
-t_vec3	get_random_in_hemisphere(t_vec3 normal);
 t_vec3	get_random_in_unit_disk(void);
 t_vec3	get_random_in_unit_sphere(void);
 t_vec3	get_random_unit_vector(void);

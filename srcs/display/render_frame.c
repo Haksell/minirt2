@@ -2,6 +2,7 @@
 
 static int	get_int_component(float x)
 {
+	// TODO: no sqrt, better normlisation
 	return (clamp((int)(255.9999 * sqrt(x)), 0, 255));
 }
 

@@ -36,10 +36,3 @@ t_vec3	get_random_unit_vector(void)
 {
 	return (vec3_unit(get_random_in_unit_sphere()));
 }
-
-t_vec3	get_random_in_hemisphere(t_vec3 normal)
-{
-	const t_vec3	v = get_random_in_unit_sphere();
-
-	return (v * (float)sign(vec3_dot(v, normal)));
-}
