@@ -37,13 +37,19 @@ bool	hit_tube(t_hit *hit, const t_tube *tube, t_ray *ray,
 	t_interval interval)
 {
 	t_vec3	outward_normal;
+	t_vec3	center_to_hit;
 
 	if (!get_root(hit, tube, ray, interval))
 		return (false);
 	hit->material = tube->material;
+	center_to_hit = hit->point - tube->center;
+	// TODO: fix the normal when the ray hits the top or bottom of the tube (the normal should be the axis of the tube) (the normal should be the axis of the tube) 
+	// outward_normal = vec3_unit(tube->center
+	// 		+ tube->axis * vec3_dot(tube->axis, center_to_hit));
+	
 	outward_normal = vec3_unit(hit->point
 			- tube->center
-			+ tube->axis * vec3_dot(tube->axis, hit->point - tube->center));
+			-tube->axis * vec3_dot(tube->axis, hit->point - tube->center));
 	set_face_normal(hit, ray, &outward_normal);
 	return (true);
 }

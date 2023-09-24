@@ -75,7 +75,7 @@
 
 # define WINDOW_WIDTH 640
 # define WINDOW_HEIGHT 360
-# define FRAMES 10
+# define FRAMES 100
 # define MAX_DEPTH 20
 # define LIGHT_INTENSITY 100.0
 # define BUFFER_SIZE_RT 16384
