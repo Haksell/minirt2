@@ -39,8 +39,14 @@ static void	render_pixel(t_data *data, int y, int x)
 	const float		v = (WINDOW_HEIGHT - y - 1 + get_random_float())
 		/ WINDOW_HEIGHT;
 	const t_ray		ray = get_ray(&data->scene.camera, u, v);
-	const t_vec3	pixel_color = raytracing(ray, &data->scene, MAX_DEPTH);
-
+	t_vec3			pixel_color;
+	
+	pixel_color = raytracing(ray, &data->scene, MAX_DEPTH);
+	pixel_color = (t_vec3){
+		fffclampfff(pixel_color[X], 0, 1),
+		fffclampfff(pixel_color[Y], 0, 1),
+		fffclampfff(pixel_color[Z], 0, 1)
+	};
 	data->pixels[y][x] = (data->pixels[y][x] * frame + pixel_color)
 		/ (frame + 1);
 	pixel_put(&data->mlx, x, y, data->pixels[y][x]);

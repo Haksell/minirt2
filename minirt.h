@@ -340,6 +340,7 @@ int				close_window(t_data *data);
 bool			complain_bool(char *error_message);
 int				complain_int(char *error_message);
 void			*complain_ptr(char *error_message);
+float			fffclampfff(float x, float min, float max);
 void			free_data(t_data *data);
 unsigned int	get_random_uint(void);
 float			get_random_float(void);
