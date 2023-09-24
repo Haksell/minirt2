@@ -9,7 +9,7 @@ int	clamp(int x, int min, int max)
 	return (x);
 }
 
-float	fffclampfff(float x, float min, float max)
+float	fclampf(float x, float min, float max)
 {
 	if (x < min)
 		return (min);
