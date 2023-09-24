@@ -1,6 +1,8 @@
 NAME := miniRT
-HEADER := minirt.h
+BONUS := miniRTbonus
+HEADER := minirt.h # TODO: headers
 DEFAULT_SCENE := scenes/valid/image21.rt
+DEFAULT_SCENE_BONUS := scenes/valid/image21.rt
 
 PATH_LIBFT := libft
 LIBFT := $(PATH_LIBFT)/libft.a
@@ -23,7 +25,6 @@ CC := cc -Wall -Wextra -Werror -Ofast -mavx -g3
 INCLUDES := -I./ -I./$(PATH_LIBFT) -I./$(PATH_MLX)
 LIBRARIES := -L$(PATH_LIBFT) -lft -lX11 -lXext -L$(PATH_MLX) -lmlx -lm
 
-FILENAMES += main
 FILENAMES += display/get_color
 FILENAMES += display/light_effects
 FILENAMES += display/phong
@@ -54,6 +55,14 @@ FILENAMES += utils/random_float
 FILENAMES += utils/random_vector
 FILENAMES += vec3/vec3a
 FILENAMES += vec3/vec3b
+
+ifeq (bonus, $(findstring bonus, $(MAKECMDGOALS)))
+	FILENAMES += bonus/main_bonus
+	FILENAMES += bonus/random_uint_bonus
+else
+	FILENAMES += main
+	FILENAMES += utils/random_uint
+endif
 
 PATH_SRCS := srcs
 PATH_OBJS := objs
@@ -89,7 +98,7 @@ $(OBJS): $(PATH_OBJS)/%.o: $(PATH_SRCS)/%.c $(HEADER) $(LIBFT) $(MLX) | $(PATH_O
 	@$(CC) -c $< -o $@ $(INCLUDES)
 	@echo "$(BLUE)+++ $@$(RESET)"
 
-$(NAME): $(OBJS)
+$(NAME) $(BONUS): $(OBJS)
 	@$(CC) $(OBJS) $(LIBRARIES) -o $@
 	@echo "$(PINK)$@ is compiled.$(RESET)"
 
@@ -113,6 +122,7 @@ clean:
 
 fclean: clean
 	$(call remove_target,$(NAME))
+	$(call remove_target,$(BONUS))
 
 re: fclean
 	@$(MAKE) -s $(NAME)
@@ -122,6 +132,17 @@ run: $(NAME)
 
 rerun: fclean
 	@$(MAKE) -s run
+
+bonus: $(BONUS)
+
+rebonus: fclean
+	@$(MAKE) -s $(BONUS)
+
+runbonus: $(BONUS)
+	@./$(BONUS) $(or $(firstword $(filter-out $@, $(MAKECMDGOALS))), $(DEFAULT_SCENE_BONUS))
+
+rerunbonus: fclean
+	@$(MAKE) -s runbonus
 
 norm:
 	@./scripts/niih $(PATH_LIBFT) $(HEADER) $(PATH_SRCS)

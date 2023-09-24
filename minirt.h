@@ -14,6 +14,7 @@
 # include <limits.h>
 # include <math.h>
 # include <stdbool.h>
+# include <stddef.h>
 # include <stdio.h> // TODO: remove
 # include <stdlib.h>
 # include <sys/stat.h>
@@ -74,12 +75,13 @@
 
 # define WINDOW_WIDTH 640
 # define WINDOW_HEIGHT 360
-# define FRAMES 100
+# define FRAMES 10
 # define MAX_DEPTH 20
 # define LIGHT_INTENSITY 100.0
 # define BUFFER_SIZE_RT 16384
 # define SHADOW_ACNE_FIX 1e-3
 # define SPACES " \f\n\r\t\v"
+# define UINT_SEED 3941839098
 
 # define SURFACES_CYLINDER 3
 # define SURFACES_PLANE 1
@@ -280,82 +282,85 @@ typedef struct s_data {
 typedef bool	(*t_scatter_func)(t_ray, t_hit, t_ray *);
 
 // display
-t_vec3	get_color(t_scene *scene, t_hit *hit, t_ray ray);
-t_vec3	get_ambient_color(t_scene *scene, t_hit *hit);
-t_vec3	get_diffuse_color(t_light *light, t_hit *hit, t_ray *light_ray);
-t_vec3	get_specular_color(t_light *light, t_hit *hit, t_ray *ray,
-			t_ray *light_ray);
-t_ray	get_ray(const t_camera *camera, float s, float t);
-t_vec3	ray_at(t_ray ray, float t);
-t_vec3	reflect(t_vec3 v, t_vec3 n);
-float	reflectance(float cosine, float ref_idx);
-t_vec3	refract(t_vec3 v, t_vec3 n, float ir);
-int		render_frame(t_data *data);
-bool	scatter(t_ray ray, t_hit hit, t_ray *scattered);
-void	set_face_normal(t_hit *hit, t_ray *ray, t_vec3 *outward_normal);
+t_vec3			get_color(t_scene *scene, t_hit *hit, t_ray ray);
+t_vec3			get_ambient_color(t_scene *scene, t_hit *hit);
+t_vec3			get_diffuse_color(t_light *light, t_hit *hit, t_ray *light_ray);
+t_vec3			get_specular_color(t_light *light, t_hit *hit, t_ray *ray,
+					t_ray *light_ray);
+t_ray			get_ray(const t_camera *camera, float s, float t);
+t_vec3			ray_at(t_ray ray, float t);
+t_vec3			reflect(t_vec3 v, t_vec3 n);
+float			reflectance(float cosine, float ref_idx);
+t_vec3			refract(t_vec3 v, t_vec3 n, float ir);
+int				render_frame(t_data *data);
+bool			scatter(t_ray ray, t_hit hit, t_ray *scattered);
+void			set_face_normal(t_hit *hit, t_ray *ray, t_vec3 *outward_normal);
 
 // hit
-bool	hit_disk(t_hit *hit, const t_disk *disk, t_ray *ray,
-			t_interval interval);
-bool	hit_sphere(t_hit *hit, const t_sphere *sphere, t_ray *ray,
-			t_interval interval);
-bool	hit_plane(t_hit *hit, const t_plane *plane, t_ray *ray,
-			t_interval interval);
-bool	hit_tube(t_hit *hit, const t_tube *tube, t_ray *ray,
-			t_interval interval);
-bool	hit_world(t_hit *hit, t_scene *scene, t_ray *ray,
-			t_interval interval);
-bool	hit_world_light(t_scene *scene, t_ray *ray, t_interval interval);
+bool			hit_disk(t_hit *hit, const t_disk *disk, t_ray *ray,
+					t_interval interval);
+bool			hit_sphere(t_hit *hit, const t_sphere *sphere, t_ray *ray,
+					t_interval interval);
+bool			hit_plane(t_hit *hit, const t_plane *plane, t_ray *ray,
+					t_interval interval);
+bool			hit_tube(t_hit *hit, const t_tube *tube, t_ray *ray,
+					t_interval interval);
+bool			hit_world(t_hit *hit, t_scene *scene, t_ray *ray,
+					t_interval interval);
+bool			hit_world_light(t_scene *scene, t_ray *ray,
+					t_interval interval);
 
 // mlx_tools
-int		handle_key_down(int keycode, t_data *data);
-bool	init_minilibx(t_mlx *mlx, char *window_title);
+int				handle_key_down(int keycode, t_data *data);
+bool			init_minilibx(t_mlx *mlx, char *window_title);
 
 // parsing
-bool	ft_atof(char *s, float *ans);
-bool	ft_atof_range(char *s, float *ans, float min, float max);
-bool	get_commas2(char *s, char **s2);
-bool	get_commas3(char *s, char **s2, char **s3);
-bool	get_commas4(char *s, char **s2, char **s3, char **s4);
-char	***get_words(char *filename);
-bool	parse_ambient(t_scene *scene, char **line);
-bool	parse_camera(t_scene *scene, char **line);
-bool	parse_color(char *s, t_vec3 *color);
-bool	parse_coord(char *s, t_vec3 *coord);
-bool	parse_cylinder(t_scene *scene, char **line, int *current_object);
-bool	parse_lights(t_scene *scene, char **line);
-bool	parse_normalized_vector(char *s, t_vec3 *vector);
-bool	parse_plane(t_scene *scene, char **line, int *current_object);
-bool	parse_scene(t_scene *scene, int argc, char **argv);
-bool	parse_sphere(t_scene *scene, char **line, int *current_object);
+bool			ft_atof(char *s, float *ans);
+bool			ft_atof_range(char *s, float *ans, float min, float max);
+bool			get_commas2(char *s, char **s2);
+bool			get_commas3(char *s, char **s2, char **s3);
+bool			get_commas4(char *s, char **s2, char **s3, char **s4);
+char			***get_words(char *filename);
+bool			parse_ambient(t_scene *scene, char **line);
+bool			parse_camera(t_scene *scene, char **line);
+bool			parse_color(char *s, t_vec3 *color);
+bool			parse_coord(char *s, t_vec3 *coord);
+bool			parse_cylinder(t_scene *scene, char **line,
+					int *current_object);
+bool			parse_lights(t_scene *scene, char **line);
+bool			parse_normalized_vector(char *s, t_vec3 *vector);
+bool			parse_plane(t_scene *scene, char **line, int *current_object);
+bool			parse_scene(t_scene *scene, int argc, char **argv);
+bool			parse_sphere(t_scene *scene, char **line, int *current_object);
 
 // utils
-int		arrlen(char **lines);
-int		clamp(int x, int min, int max);
-int		close_window(t_data *data);
-bool	complain_bool(char *error_message);
-int		complain_int(char *error_message);
-void	*complain_ptr(char *error_message);
-void	free_data(t_data *data);
-float	get_random_float(void);
-float	get_random_float_range(float min, float max);
-t_vec3	get_random_in_unit_disk(void);
-t_vec3	get_random_in_unit_sphere(void);
-t_vec3	get_random_unit_vector(void);
-bool	includes(char **arr, char *s);
-bool	in_interval(t_interval interval, float x);
-bool	init_pixels(t_data *data);
-bool	is_close(float x, float y);
-void	print_vec3(char *name, t_vec3 v); // TODO remove
-int		sign(float x);
+int				arrlen(char **lines);
+int				clamp(int x, int min, int max);
+int				close_window(t_data *data);
+bool			complain_bool(char *error_message);
+int				complain_int(char *error_message);
+void			*complain_ptr(char *error_message);
+void			free_data(t_data *data);
+unsigned int	get_random_uint(void);
+float			get_random_float(void);
+float			get_random_float_range(float min, float max);
+t_vec3			get_random_in_unit_disk(void);
+t_vec3			get_random_in_unit_sphere(void);
+t_vec3			get_random_unit_vector(void);
+bool			includes(char **arr, char *s);
+bool			in_interval(t_interval interval, float x);
+bool			init_pixels(t_data *data);
+bool			is_close(float x, float y);
+void			print_vec3(char *name, t_vec3 v); // TODO remove
+int				sign(float x);
 
 // vec3
-float	vec3_dot(t_vec3 v1, t_vec3 v2);
-t_vec3	vec3_cross(t_vec3 v1, t_vec3 v2);
-bool	vec3_near_zero(t_vec3 v);
-float	vec3_length_squared(t_vec3 v);
-float	vec3_length(t_vec3 v);
-t_vec3	vec3_unit(t_vec3 v);
-float	vec3_dist_squared(t_vec3 v1, t_vec3 v2);
+float			vec3_dot(t_vec3 v1, t_vec3 v2);
+t_vec3			vec3_cross(t_vec3 v1, t_vec3 v2);
+bool			vec3_near_zero(t_vec3 v);
+float			vec3_length_squared(t_vec3 v);
+float			vec3_length(t_vec3 v);
+t_vec3			vec3_unit(t_vec3 v);
+float			vec3_dist_squared(t_vec3 v1, t_vec3 v2);
 
 #endif
