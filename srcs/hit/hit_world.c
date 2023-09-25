@@ -29,24 +29,10 @@ bool	hit_world(t_hit *hit, t_scene *scene, t_ray *ray,
 		{
 			hit_anything = true;
 			interval.max = temp_hit.t;
-			*hit = temp_hit;
+			if (hit)
+				*hit = temp_hit;
 		}
 		++i;
 	}
 	return (hit_anything);
-}
-
-bool	hit_world_light(t_scene *scene, t_ray *ray, t_interval interval)
-{
-	t_hit	temp_hit;
-	int		i;
-
-	i = 0;
-	while (i < scene->nb_obj)
-	{
-		if (hit_object(&temp_hit, scene->world + i, ray, interval))
-			return (true);
-		++i;
-	}
-	return (false);
 }

@@ -307,8 +307,6 @@ bool			hit_tube(t_hit *hit, const t_tube *tube, t_ray *ray,
 					t_interval interval);
 bool			hit_world(t_hit *hit, t_scene *scene, t_ray *ray,
 					t_interval interval);
-bool			hit_world_light(t_scene *scene, t_ray *ray,
-					t_interval interval);
 
 // mlx_tools
 int				handle_key_down(int keycode, t_data *data);
