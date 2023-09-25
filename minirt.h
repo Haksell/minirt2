@@ -78,8 +78,12 @@
 
 # define RANDOM_FLOAT_MULTIPLICATOR 0.00000000023283064365386962890625
 
-# define WINDOW_WIDTH 640
-# define WINDOW_HEIGHT 360
+# ifndef WINDOW_WIDTH
+#  define WINDOW_WIDTH 640
+# endif
+# ifndef WINDOW_HEIGHT
+#  define WINDOW_HEIGHT 360
+# endif
 # define FRAMES 100
 # define MAX_DEPTH 20
 # define LIGHT_INTENSITY 100.0
@@ -111,6 +115,11 @@ typedef struct s_interval {
 	float	min;
 	float	max;
 }	t_interval;
+
+typedef struct s_pixel {
+	int	x;
+	int	y;
+}	t_pixel;
 
 /******************************************************************************/
 /*                                                                            */
@@ -284,7 +293,8 @@ typedef struct s_data {
 	bool			stop;
 	t_mutex			mutex;
 	t_mlx			mlx;
-	t_vec3			**pixels;
+	t_vec3			**pixels; // TODO: pixel_colors
+	t_pixel			*pixel_coordinates;
 	t_scene			scene;
 	struct s_thread	*threads;
 }	t_data;
@@ -294,6 +304,8 @@ typedef struct s_thread
 	int			idx;
 	int			cur_frame;
 	pthread_t	pthread_id;
+	t_pixel		*pixels_to_manage;
+	size_t		pixels_count;
 	t_data		*data;
 }	t_thread;
 
@@ -365,6 +377,7 @@ void			*complain_ptr(char *error_message);
 float			fclampf(float x, float min, float max);
 void			free_data(t_data *data);
 unsigned int	get_random_uint(void);
+unsigned int	get_random_uint_range(unsigned int a, unsigned int b);
 float			get_random_float(void);
 float			get_random_float_range(float min, float max);
 t_vec3			get_random_in_unit_disk(void);
@@ -373,6 +386,7 @@ t_vec3			get_random_unit_vector(void);
 bool			includes(char **arr, char *s);
 bool			in_interval(t_interval interval, float x);
 bool			init_pixels(t_data *data);
+bool			init_pixel_coordinates(t_data *data);
 bool			is_close(float x, float y);
 void			print_vec3(char *name, t_vec3 v); // TODO remove
 int				sign(float x);

@@ -7,11 +7,18 @@ static bool	init_mutexes(t_data *data)
 	return (true);
 }
 
+static size_t	cut_pixels(int i)
+{
+	return (WINDOW_WIDTH * WINDOW_HEIGHT * i / CPUS);
+}
+
 static bool	init_thread(t_data *data)
 {
-	int			i;
-	int			j;
-	t_thread	tab_thread[CPUS];
+	size_t		i;
+	size_t		j;
+	t_thread	tab_thread[CPUS]; // TODO: malloc?
+	size_t 		start;
+	size_t 		end;
 
 	i = 0;
 	while (i < CPUS)
@@ -19,6 +26,16 @@ static bool	init_thread(t_data *data)
 		tab_thread[i].idx = i;
 		tab_thread[i].data = data;
 		tab_thread[i].cur_frame = 0;
+		start = cut_pixels(i);
+		end = cut_pixels(i + 1);
+		tab_thread[i].pixels_count = end - start;
+		tab_thread[i].pixels_to_manage = malloc(sizeof(t_pixel) * (end - start)); //TO DO : protect malloc
+		j = 0;
+		while (j < tab_thread[i].pixels_count)
+		{
+			tab_thread[i].pixels_to_manage[j] = data->pixel_coordinates[start + j];
+			j++;
+		}
 		if (pthread_create(&tab_thread[i].pthread_id, NULL,
 				(void *(*)(void *))routine, &tab_thread[i]) != 0)
 		{
@@ -32,7 +49,7 @@ static bool	init_thread(t_data *data)
 		}
 		++i;
 	}
-	data->threads = tab_thread;
+	data->threads = tab_thread; // TODO: check
 	return (true);
 }
 
@@ -43,6 +60,7 @@ int	main(int argc, char **argv)
 	ft_bzero(&data, sizeof(data));
 	if (!parse_scene(&data.scene, argc, argv)
 		|| !init_pixels(&data)
+		|| !init_pixel_coordinates(&data)
 		|| !init_minilibx(&data.mlx, argv[1])
 		|| !init_mutexes(&data)
 		|| !init_thread(&data))

@@ -2,7 +2,6 @@
 
 static int	get_int_component(float x)
 {
-	// TODO: no sqrt, better normlisation
 	return (clamp((int)(255.9999 * sqrt(x)), 0, 255));
 }
 
@@ -52,47 +51,16 @@ static void	render_pixel(t_data *data, int y, int x)
 	pixel_put(&data->mlx, x, y, data->pixels[y][x]);
 }
 
-// int	render_frame(t_data *data)
-// {
-// 	int	y;
-// 	int	x;
-
-// 	if (data->frame == FRAMES)
-// 		return (EXIT_SUCCESS);
-// 	y = 0;
-// 	while (y < WINDOW_HEIGHT)
-// 	{
-// 		x = 0;
-// 		while (x < WINDOW_WIDTH)
-// 		{
-// 			render_pixel(data, y, x);
-// 			++x;
-// 		}
-// 		++y;
-// 	}
-// 	++data->frame;
-// 	ft_printf("\rFrame: %d/%d", data->frame, FRAMES);
-// 	if (data->frame == FRAMES)
-// 		ft_printf("\nCompleted.\n");
-// 	mlx_put_image_to_window(data->mlx.mlx, data->mlx.win, data->mlx.img, 0, 0);
-// 	return (EXIT_SUCCESS);
-// }
-
 void	render_thread_frame(t_thread *thread)
 {
-	int	y;
-	int	x;
+	size_t	i;
 
-	y = 0;
-	while (y < WINDOW_HEIGHT)
+	i = 0;
+	while (i < thread->pixels_count)
 	{
-		x = thread->idx;
-		while (x < WINDOW_WIDTH)
-		{
-			render_pixel(thread->data, y, x);
-			x += CPUS;
-		}
-		++y;
+		render_pixel(thread->data, thread->pixels_to_manage[i].y,
+			thread->pixels_to_manage[i].x);
+		++i;
 	}
 	pthread_mutex_lock(&thread->data->mutex.access_data);
 	++thread->data->cpus_count;
