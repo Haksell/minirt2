@@ -4,7 +4,7 @@ void	*routine(t_thread *thread)
 {
 	int	frame_to_compute;
 
-	while (1)
+	while (true)
 	{
 		pthread_mutex_lock(&thread->data->mutex.access_data);
 		if (thread->data->frame == FRAMES || thread->data->stop)
@@ -28,6 +28,7 @@ int	render_frame(t_data *data)
 	if (data->frame == FRAMES)
 	{
 		pthread_mutex_unlock(&data->mutex.access_data);
+		usleep(CPUS * 200);
 		return (EXIT_SUCCESS);
 	}
 	pthread_mutex_unlock(&data->mutex.access_data);
