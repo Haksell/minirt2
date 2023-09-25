@@ -1,5 +1,23 @@
 #include "minirt.h"
 
+static void	destroy_mutexes(t_data *data)
+{
+	pthread_mutex_destroy(&data->mutex.access_data);
+	pthread_mutex_destroy(&data->mutex.access_image);
+}
+
+static void	wait_threads(t_data *data)
+{
+	int	i;
+
+	i = 0;
+	while (i < CPUS)
+	{
+		pthread_join(data->threads[i].pthread_id, NULL);
+		i++;
+	}
+}
+
 void	free_data(t_data *data)
 {
 	ft_free_double((void ***)&data->pixels);
@@ -17,6 +35,11 @@ void	free_data(t_data *data)
 
 int	close_window(t_data *data)
 {
+	pthread_mutex_lock(&data->mutex.access_data);
+	data->stop = true;
+	pthread_mutex_unlock(&data->mutex.access_data);
+	wait_threads(data);
+	destroy_mutexes(data);
 	free_data(data);
 	exit(EXIT_SUCCESS);
 	return (EXIT_SUCCESS);

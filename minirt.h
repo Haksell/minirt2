@@ -22,6 +22,7 @@
 # include <unistd.h>
 # include <X11/keysym.h>
 # include <X11/Xlib.h>
+# include <pthread.h>
 
 /******************************************************************************/
 /*                                                                            */
@@ -69,6 +70,10 @@
 
 # ifndef M_PI
 #  define M_PI 3.141592653589793
+# endif
+
+# ifndef CPUS
+#  define CPUS 20
 # endif
 
 # define RANDOM_FLOAT_MULTIPLICATOR 0.00000000023283064365386962890625
@@ -265,13 +270,32 @@ typedef struct s_mlx {
 	void	*mlx;
 }	t_mlx;
 
+typedef struct s_mutex
+{
+	pthread_mutex_t	access_data;
+	pthread_mutex_t	access_image;
+}	t_mutex;
+
+struct	s_thread;
+
 typedef struct s_data {
-	int		frame;
-	bool	stop;
-	t_mlx	mlx;
-	t_vec3	**pixels;
-	t_scene	scene;
+	int				frame;
+	int				cpus_count;
+	bool			stop;
+	t_mutex			mutex;
+	t_mlx			mlx;
+	t_vec3			**pixels;
+	t_scene			scene;
+	struct s_thread	*threads;
 }	t_data;
+
+typedef struct s_thread
+{
+	int			idx;
+	int			cur_frame;
+	pthread_t	pthread_id;
+	t_data		*data;
+}	t_thread;
 
 /******************************************************************************/
 /*                                                                            */
@@ -361,5 +385,9 @@ float			vec3_length_squared(t_vec3 v);
 float			vec3_length(t_vec3 v);
 t_vec3			vec3_unit(t_vec3 v);
 float			vec3_dist_squared(t_vec3 v1, t_vec3 v2);
+
+// multi-threading
+void			render_thread_frame(t_thread *thread);
+void			*routine(t_thread *thread);
 
 #endif

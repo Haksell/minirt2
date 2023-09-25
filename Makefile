@@ -30,6 +30,7 @@ FILENAMES += display/light_effects
 FILENAMES += display/phong
 FILENAMES += display/ray
 FILENAMES += display/render_frame
+FILENAMES += display/render_frame2
 FILENAMES += display/scatter
 FILENAMES += hit/hit_disk
 FILENAMES += hit/hit_plane

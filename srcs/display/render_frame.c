@@ -52,28 +52,50 @@ static void	render_pixel(t_data *data, int y, int x)
 	pixel_put(&data->mlx, x, y, data->pixels[y][x]);
 }
 
-int	render_frame(t_data *data)
+// int	render_frame(t_data *data)
+// {
+// 	int	y;
+// 	int	x;
+
+// 	if (data->frame == FRAMES)
+// 		return (EXIT_SUCCESS);
+// 	y = 0;
+// 	while (y < WINDOW_HEIGHT)
+// 	{
+// 		x = 0;
+// 		while (x < WINDOW_WIDTH)
+// 		{
+// 			render_pixel(data, y, x);
+// 			++x;
+// 		}
+// 		++y;
+// 	}
+// 	++data->frame;
+// 	ft_printf("\rFrame: %d/%d", data->frame, FRAMES);
+// 	if (data->frame == FRAMES)
+// 		ft_printf("\nCompleted.\n");
+// 	mlx_put_image_to_window(data->mlx.mlx, data->mlx.win, data->mlx.img, 0, 0);
+// 	return (EXIT_SUCCESS);
+// }
+
+void	render_thread_frame(t_thread *thread)
 {
 	int	y;
 	int	x;
 
-	if (data->frame == FRAMES)
-		return (EXIT_SUCCESS);
 	y = 0;
 	while (y < WINDOW_HEIGHT)
 	{
-		x = 0;
+		x = thread->idx;
 		while (x < WINDOW_WIDTH)
 		{
-			render_pixel(data, y, x);
-			++x;
+			render_pixel(thread->data, y, x);
+			x += CPUS;
 		}
 		++y;
 	}
-	++data->frame;
-	ft_printf("\rFrame: %d/%d", data->frame, FRAMES);
-	if (data->frame == FRAMES)
-		ft_printf("\nCompleted.\n");
-	mlx_put_image_to_window(data->mlx.mlx, data->mlx.win, data->mlx.img, 0, 0);
-	return (EXIT_SUCCESS);
+	pthread_mutex_lock(&thread->data->mutex.access_data);
+	++thread->data->cpus_count;
+	pthread_mutex_unlock(&thread->data->mutex.access_data);
+	++thread->cur_frame;
 }
