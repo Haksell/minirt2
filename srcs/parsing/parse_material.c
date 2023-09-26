@@ -2,27 +2,32 @@
 
 static bool	parse_lambertian(char *attributes, t_material *material)
 {
+	char	*ka;
+	char	*kd;
+	char	*ks;
+	char	*specular_exponent;
+
 	material->type = MATERIAL_LAMBERTIAN;
-	material->u.lambertian.ka = 0.5;
-	material->u.lambertian.kd = 0.8;
-	material->u.lambertian.ks = 0.2;
-	material->u.lambertian.specular_exponent = 5;
-	(void)attributes;
-	return (true);
+	ka = attributes;
+	return (get_commas4(ka, &kd, &ks, &specular_exponent)
+		&& ft_atof_range(ka, &material->u.lambertian.ka, 0, 1)
+		&& ft_atof_range(kd, &material->u.lambertian.kd, 0, 1)
+		&& ft_atof_range(ks, &material->u.lambertian.ks, 0, 1)
+		&& ft_atof_range(specular_exponent,
+			&material->u.lambertian.specular_exponent, 0, INFINITY));
 }
 
 static bool	parse_metal(char *attributes, t_material *material)
 {
-	(void)attributes;
-	(void)material;
-	return (true);
+	material->type = MATERIAL_METAL;
+	return (ft_atof_range(attributes, &material->u.metal.fuzz, 0, INFINITY));
 }
 
 static bool	parse_dielectric(char *attributes, t_material *material)
 {
-	(void)attributes;
-	(void)material;
-	return (true);
+	material->type = MATERIAL_DIELECTRIC;
+	return (ft_atof_range(attributes, &material->u.dielectric.ir, 0, INFINITY)
+		&& material->u.dielectric.ir > 0);
 }
 
 bool	parse_material(char *material_name, char *attributes,

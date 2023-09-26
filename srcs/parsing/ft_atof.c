@@ -19,7 +19,8 @@ bool	ft_atof(char *s, float *ans)
 		decimal = 0.1;
 		while (ft_isdigit(s[i]))
 		{
-			*ans += decimal * (s[i++] - '0');
+			*ans += decimal * (s[i] - '0');
+			++i;
 			decimal *= 0.1;
 		}
 	}

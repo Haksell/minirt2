@@ -8,7 +8,6 @@ static t_object	add_disk(t_tube tube, bool is_top)
 	t_plane		plane;
 	t_object	object;
 
-	// TODO: copy material
 	axis = tube.axis;
 	scaled_axis = tube.axis * tube.half_height;
 	if (is_top)
