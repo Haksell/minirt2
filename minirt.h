@@ -169,14 +169,12 @@ typedef struct t_material {
 typedef struct s_sphere {
 	t_vec3		center;
 	float		radius;
-	t_vec3		color;
 	t_material	material;
 }	t_sphere;
 
 typedef struct s_plane {
 	t_vec3		coord;
 	t_vec3		vector;
-	t_vec3		color;
 	t_material	material;
 }	t_plane;
 
@@ -190,7 +188,6 @@ typedef struct s_tube {
 	t_vec3		axis;
 	float		radius;
 	float		half_height;
-	t_vec3		color;
 	t_material	material;
 }	t_tube;
 
@@ -361,7 +358,7 @@ bool			parse_cylinder(t_scene *scene, char **line,
 					int *current_object);
 bool			parse_lights(t_scene *scene, char **line);
 bool			parse_material(char *material_name, char *attributes,
-					t_vec3 color, t_material *material);
+					t_material *material);
 bool			parse_normalized_vector(char *s, t_vec3 *vector);
 bool			parse_plane(t_scene *scene, char **line, int *current_object);
 bool			parse_scene(t_scene *scene, int argc, char **argv);

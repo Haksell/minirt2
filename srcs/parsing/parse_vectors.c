@@ -16,7 +16,7 @@ static bool	parse_component(char *s, float *x)
 			return (false);
 		++i;
 	}
-	*x = n;
+	*x = n / 255.0;
 	return (s[i] == '\0');
 }
 

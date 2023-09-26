@@ -12,7 +12,6 @@ bool	parse_ambient(t_scene *scene, char **line)
 		|| !parse_color(line[2], &scene->ambient.color))
 		return (complain_bool(ERROR_AMBIENT));
 	scene->ambient.exists = true;
-	scene->ambient.color = scene->ambient.color / 255;
 	return (true);
 }
 
@@ -57,11 +56,12 @@ bool	parse_lights(t_scene *scene, char **line)
 	const int	length = arrlen(line);
 	float		brightness;
 
+	// TODO several lights
 	if (length != 4
 		|| !parse_coord(line[1], &scene->lights[0].coord)
 		|| !ft_atof_range(line[2], &brightness, 0, 1)
 		|| !parse_color(line[3], &scene->lights[0].color))
 		return (complain_bool(ERROR_LIGHT));
-	scene->lights[0].color = brightness / 255 * scene->lights[0].color;
+	scene->lights[0].color = brightness * scene->lights[0].color;
 	return (true);
 }
