@@ -361,7 +361,7 @@ bool			parse_cylinder(t_scene *scene, char **line,
 					int *current_object);
 bool			parse_lights(t_scene *scene, char **line);
 bool			parse_material(char *material_name, char *attributes,
-					t_material *material);
+					t_vec3 color, t_material *material);
 bool			parse_normalized_vector(char *s, t_vec3 *vector);
 bool			parse_plane(t_scene *scene, char **line, int *current_object);
 bool			parse_scene(t_scene *scene, int argc, char **argv);
