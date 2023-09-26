@@ -2,7 +2,7 @@
 
 unsigned int	get_random_uint(void)
 {
-	static unsigned int		x = UINT_SEED;
+	_Thread_local static unsigned int		x = UINT_SEED;
 	// static pthread_mutex_t	mutex = PTHREAD_MUTEX_INITIALIZER; //TO DO: check if we can improve
 
 	// pthread_mutex_lock(&mutex);
