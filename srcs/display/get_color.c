@@ -15,10 +15,8 @@ t_vec3	get_color(t_scene *scene, t_hit *hit, t_ray ray)
 	t_vec3	color;
 	t_light	*light;
 
-	if (hit->material.type == MATERIAL_METAL)
-		return (hit->material.u.metal.albedo);
-	if (hit->material.type == MATERIAL_DIELECTRIC)
-		return (hit->material.u.dielectric.albedo);
+	if (hit->material.type != MATERIAL_LAMBERTIAN)
+		return (hit->material.albedo); // TODO
 	color = get_ambient_color(scene, hit);
 	i = 0;
 	while (i < scene->nb_lights)

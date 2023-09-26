@@ -3,11 +3,11 @@
 static void	set_default_material(t_material *material, t_vec3 color)
 {
 	material->type = MATERIAL_LAMBERTIAN;
+	material->albedo = color / 255;
 	material->u.lambertian.ka = 0.5;
 	material->u.lambertian.kd = 0.8;
 	material->u.lambertian.ks = 0.2;
 	material->u.lambertian.specular_exponent = 5;
-	material->u.lambertian.albedo = color / 255;
 }
 
 static t_object	add_disk(t_tube tube, bool is_top)

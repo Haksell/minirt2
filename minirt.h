@@ -128,12 +128,10 @@ typedef struct s_pixel {
 /******************************************************************************/
 
 typedef struct t_dielectric {
-	t_vec3	albedo;
 	float	ir;
 }	t_dielectric;
 
 typedef struct t_lambertian {
-	t_vec3	albedo;
 	float	ka;
 	float	kd;
 	float	ks;
@@ -141,7 +139,6 @@ typedef struct t_lambertian {
 }	t_lambertian;
 
 typedef struct t_metal {
-	t_vec3	albedo;
 	float	fuzz;
 }	t_metal;
 
@@ -159,6 +156,7 @@ typedef union u_material_union {
 
 typedef struct t_material {
 	t_material_type		type;
+	t_vec3				albedo;
 	t_material_union	u;
 }	t_material;
 

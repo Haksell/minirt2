@@ -1,18 +1,8 @@
 #include "minirt.h"
 
-static t_vec3	get_color_from_material(t_material *material)
-{
-	if (material->type == MATERIAL_DIELECTRIC)
-		return ((t_vec3){1, 1, 1});
-	else if (material->type == MATERIAL_LAMBERTIAN)
-		return (material->u.lambertian.albedo);
-	else
-		return (material->u.metal.albedo);
-}
-
 t_vec3	get_ambient_color(t_scene *scene, t_hit *hit)
 {
-	return (get_color_from_material(&hit->material)
+	return (hit->material.albedo
 		* scene->ambient.color
 		* hit->material.u.lambertian.ka);
 }
@@ -23,7 +13,7 @@ t_vec3	get_diffuse_color(t_light *light, t_hit *hit, t_ray *light_ray)
 		* LIGHT_INTENSITY
 		* fmaxf(vec3_dot(light_ray->direction, hit->normal), 0)
 		/ (light_ray->distance * light_ray->distance)
-		* get_color_from_material(&hit->material)
+		* hit->material.albedo
 		* hit->material.u.lambertian.kd);
 }
 
