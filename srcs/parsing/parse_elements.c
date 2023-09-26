@@ -51,17 +51,18 @@ bool	parse_camera(t_scene *scene, char **line)
 	return (true);
 }
 
-bool	parse_lights(t_scene *scene, char **line)
+bool	parse_lights(t_scene *scene, char **line, int *current_light)
 {
 	const int	length = arrlen(line);
 	float		brightness;
 
-	// TODO several lights
 	if (length != 4
-		|| !parse_coord(line[1], &scene->lights[0].coord)
+		|| !parse_coord(line[1], &scene->lights[*current_light].coord)
 		|| !ft_atof_range(line[2], &brightness, 0, 1)
-		|| !parse_color(line[3], &scene->lights[0].color))
+		|| !parse_color(line[3], &scene->lights[*current_light].color))
 		return (complain_bool(ERROR_LIGHT));
-	scene->lights[0].color = brightness * scene->lights[0].color;
+	scene->lights[*current_light].color = brightness
+		* scene->lights[*current_light].color;
+	++(*current_light);
 	return (true);
 }

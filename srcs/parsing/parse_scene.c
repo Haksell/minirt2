@@ -58,14 +58,14 @@ static bool	count_objects(char ***words, int *nb_obj, int *nb_lights)
 	return (true);
 }
 
-static bool	parse_line(t_scene *scene, char **line, int *current_object)
+static bool	parse_line(t_scene *scene, char **line, int *current_object, int *current_light)
 {
 	if (ft_strcmp(line[0], "A") == 0)
 		return (parse_ambient(scene, line));
 	else if (ft_strcmp(line[0], "C") == 0)
 		return (parse_camera(scene, line));
 	else if (ft_strcmp(line[0], "L") == 0)
-		return (parse_lights(scene, line));
+		return (parse_lights(scene, line, current_light));
 	else if (ft_strcmp(line[0], "sp") == 0)
 		return (parse_sphere(scene, line, current_object));
 	else if (ft_strcmp(line[0], "pl") == 0)
@@ -78,13 +78,14 @@ static bool	parse_line(t_scene *scene, char **line, int *current_object)
 static bool	parse_scene2(t_scene *scene, char ***words)
 {
 	int	current_object;
+	int	current_light;
 	int	i;
 
 	current_object = 0;
 	i = 0;
 	while (words[i] != NULL)
 	{
-		if (!parse_line(scene, words[i], &current_object))
+		if (!parse_line(scene, words[i], &current_object, &current_light))
 		{
 			ft_free_triple((void ****)&words);
 			return (false);
@@ -111,11 +112,6 @@ bool	parse_scene(t_scene *scene, int argc, char **argv)
 	{
 		ft_free_triple((void ****)&words);
 		return (false);
-	}
-	if (scene->nb_lights > 1)
-	{
-		ft_free_triple((void ****)&words);
-		return (complain_bool(DOUBLE_LIGHT));
 	}
 	scene->world = malloc(scene->nb_obj * sizeof(t_object));
 	scene->lights = malloc(scene->nb_lights * sizeof(t_light));

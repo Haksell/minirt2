@@ -356,7 +356,7 @@ bool			parse_color(char *s, t_vec3 *color);
 bool			parse_coord(char *s, t_vec3 *coord);
 bool			parse_cylinder(t_scene *scene, char **line,
 					int *current_object);
-bool			parse_lights(t_scene *scene, char **line);
+bool			parse_lights(t_scene *scene, char **line, int *current_light);
 bool			parse_material(char *material_name, char *attributes,
 					t_material *material);
 bool			parse_normalized_vector(char *s, t_vec3 *vector);
