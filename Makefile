@@ -42,6 +42,7 @@ FILENAMES += parsing/ft_atof
 FILENAMES += parsing/get_commas
 FILENAMES += parsing/get_words
 FILENAMES += parsing/parse_elements
+FILENAMES += parsing/parse_material
 FILENAMES += parsing/parse_objects
 FILENAMES += parsing/parse_scene
 FILENAMES += parsing/parse_vectors
