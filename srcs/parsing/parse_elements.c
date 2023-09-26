@@ -18,8 +18,8 @@ bool	parse_ambient(t_scene *scene, char **line)
 static void	define_camera(t_camera *camera, float fov)
 {
 	camera->exists = true;
-	camera->lens_radius = 0;
-	camera->focus_dist = 1;
+	camera->lens_radius = 0; // TODO add to parsing
+	camera->focus_dist = 1; // TODO add to parsing
 	camera->aspect_ratio = (float)WINDOW_WIDTH / (float)WINDOW_HEIGHT;
 	camera->viewport_width = 2 * tan(fov * M_PI / 360);
 	camera->viewport_height = camera->viewport_width / camera->aspect_ratio;
