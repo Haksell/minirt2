@@ -1,15 +1,13 @@
 #include "minirt.h"
 
+// TODO different seeds for different threads
 unsigned int	get_random_uint(void)
 {
 	_Thread_local static unsigned int		x = UINT_SEED;
-	// static pthread_mutex_t	mutex = PTHREAD_MUTEX_INITIALIZER; //TO DO: check if we can improve
 
-	// pthread_mutex_lock(&mutex);
 	x ^= x << 13;
 	x ^= x >> 17;
 	x ^= x << 5;
-	// pthread_mutex_unlock(&mutex);
 	return (x);
 }
 

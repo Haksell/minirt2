@@ -31,7 +31,7 @@
 /******************************************************************************/
 
 # define USAGE_MANDATORY "Usage: ./miniRT *.rt"
-# define USAGE_BONUS "Usage: ./miniRTbonus *.rtb?"
+# define USAGE_BONUS "Usage: ./miniRTbonus *.rtb"
 
 # define SPACY_LINE "Line contains only spaces and tabulations"
 # define OPEN_ERROR "File cannot be opened"

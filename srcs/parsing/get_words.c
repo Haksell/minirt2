@@ -56,6 +56,10 @@ static char	**get_lines(char *filename)
 {
 	char	*file_content;
 	char	**lines;
+	char	**nocomments;
+	size_t	i;
+	size_t	j;
+	size_t	valid_lines;
 
 	file_content = get_file_content(filename);
 	if (file_content == NULL)
@@ -64,7 +68,32 @@ static char	**get_lines(char *filename)
 	free(file_content);
 	if (lines == NULL)
 		ft_putstr_fd(MALLOC_ERROR, STDERR_FILENO);
-	return (lines);
+	valid_lines = 0;
+	i = 0;
+	while (lines[i])
+	{
+		if (lines[i][0] != '#' && lines[i][0] != '\0')
+			++valid_lines;
+		++i;
+	}
+	nocomments = ft_calloc(valid_lines + 1, sizeof(char *));
+	if (nocomments == NULL)
+		return (ft_free_double((void ***)&lines), complain_ptr(MALLOC_ERROR));
+	i = 0;
+	j = 0;
+	while (lines[i])
+	{
+		if (lines[i][0] != '#' && lines[i][0] != '\0')
+		{
+			nocomments[j] = lines[i];
+			++j;
+		}
+		else
+			free(lines[i]);
+		++i;
+	}
+	ft_free((void **)&lines);
+	return (nocomments);
 }
 
 char	***get_words(char *filename)

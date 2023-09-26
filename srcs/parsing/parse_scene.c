@@ -103,8 +103,8 @@ bool	parse_scene(t_scene *scene, int argc, char **argv)
 {
 	char	***words;
 
-	if (argc != 2 || !ft_endswith(argv[1], ".rt"))
-		return (complain_bool(USAGE_MANDATORY));
+	if (argc != 2 || !ft_endswith(argv[1], ".rtb"))
+		return (complain_bool(USAGE_BONUS));
 	words = get_words(argv[1]);
 	if (words == NULL
 		|| !count_objects(words, &scene->nb_obj, &scene->nb_lights))
