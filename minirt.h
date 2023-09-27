@@ -329,6 +329,7 @@ t_vec3			reflect(t_vec3 v, t_vec3 n);
 float			reflectance(float cosine, float ref_idx);
 t_vec3			refract(t_vec3 v, t_vec3 n, float ir);
 int				render_frame(t_data *data);
+void			*routine(t_thread *thread);
 bool			scatter(t_ray ray, t_hit hit, t_ray *scattered);
 
 // hit
@@ -408,9 +409,5 @@ bool			init_pixel_coordinates(t_data *data);
 bool			is_close(float x, float y);
 void			print_vec3(char *name, t_vec3 v); // TODO remove
 int				sign(float x);
-
-// multi-threading
-void			render_thread_frame(t_thread *thread);
-void			*routine(t_thread *thread);
 
 #endif
