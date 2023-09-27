@@ -69,7 +69,6 @@ bool	parse_sphere(t_scene *scene, char **line, int *current_object)
 {
 	const int	length = arrlen(line);
 	t_object	*object;
-	t_vec3		rvec;
 
 	object = &scene->world[*current_object];
 	if (length != 6
@@ -81,9 +80,9 @@ bool	parse_sphere(t_scene *scene, char **line, int *current_object)
 		return (complain_bool(ERROR_SPHERE));
 	object->type = OBJECT_SPHERE;
 	object->u.sphere.radius *= 0.5;
-	rvec = (t_vec3){sphere->radius, sphere->radius, sphere->radius};
-	object->u.sphere.bbox = bbox_new(sphere->center - sphere->radius,
-			sphere->center + sphere->radius);
+	object->u.sphere.bbox = bbox_new(
+			object->u.sphere.center - object->u.sphere.radius,
+			object->u.sphere.center + object->u.sphere.radius);
 	*current_object += SURFACES_SPHERE;
 	return (true);
 }
