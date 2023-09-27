@@ -2,9 +2,10 @@
 # define STRUCTS_H
 
 // TODO: try vec3 of doubles
-typedef float	t_vec3 __attribute__((vector_size(16)));
-struct			s_object;
-struct			s_thread;
+typedef float			t_vec3 __attribute__((vector_size(16)));
+
+typedef struct s_object	t_object;
+typedef struct s_thread	t_thread;
 
 /******************************************************************************/
 /*                                                                            */
@@ -111,9 +112,9 @@ typedef struct s_tube {
 }	t_tube;
 
 typedef struct s_bvh_node {
-	struct s_object	*left;
-	struct s_object	*right;
-	t_bbox			bbox;
+	t_object	*left;
+	t_object	*right;
+	t_bbox		bbox;
 }	t_bvh_node;
 
 typedef enum e_object_type {
@@ -216,7 +217,7 @@ typedef struct s_data {
 	t_vec3				**pixel_colors;
 	t_pixel_coordinate	*pixel_coordinates;
 	t_scene				scene;
-	struct s_thread		*threads;
+	t_thread			*threads;
 }	t_data;
 
 typedef struct s_thread
