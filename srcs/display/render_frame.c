@@ -31,6 +31,17 @@ static t_vec3	raytracing(t_ray ray, t_scene *scene, int depth)
 	return (color);
 }
 
+static t_ray	get_ray(const t_camera *camera, float s, float t)
+{
+	const t_vec3	rd = get_random_in_unit_disk() * camera->lens_radius;
+	const t_vec3	offset = camera->u * rd[X] + camera->v * rd[Y];
+	const t_vec3	moved_camera = camera->origin + offset;
+	const t_vec3	direction = camera->lower_left - moved_camera
+		+ camera->horizontal * s + camera->vertical * t;
+
+	return ((t_ray){moved_camera, direction, 0});
+}
+
 static void	render_pixel(t_data *data, int y, int x)
 {
 	const float		frame = (float)data->frame;

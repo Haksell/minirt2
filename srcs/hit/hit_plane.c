@@ -13,16 +13,11 @@ bool	hit_plane(t_hit *hit, const t_plane *plane, t_ray *ray,
 	if (!in_interval(interval, hit->t))
 		return (false);
 	hit->point = ray_at(*ray, hit->t);
-	if (denom < 0)
-	{
-		hit->front_face = true;
+	hit->front_face = denom < 0;
+	if (hit->front_face)
 		hit->normal = plane->vector;
-	}
 	else
-	{
-		hit->front_face = false;
 		hit->normal = -plane->vector;
-	}
 	hit->material = plane->material;
 	return (true);
 }

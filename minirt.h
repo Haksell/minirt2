@@ -116,6 +116,12 @@ typedef struct s_interval {
 	float	max;
 }	t_interval;
 
+typedef struct s_aabb {
+	t_interval	x;
+	t_interval	y;
+	t_interval	z;
+}	t_aabb;
+
 typedef struct s_pixel {
 	int	x;
 	int	y;
@@ -248,12 +254,6 @@ typedef struct s_light {
 /*                                                                            */
 /******************************************************************************/
 
-typedef struct s_aabb {
-	t_interval	x;
-	t_interval	y;
-	t_interval	z;
-}	t_aabb;
-
 typedef struct s_hit {
 	bool		front_face;
 	float		t;
@@ -324,16 +324,16 @@ t_vec3			get_ambient_color(t_scene *scene, t_hit *hit);
 t_vec3			get_diffuse_color(t_light *light, t_hit *hit, t_ray *light_ray);
 t_vec3			get_specular_color(t_light *light, t_hit *hit, t_ray *ray,
 					t_ray *light_ray);
-t_ray			get_ray(const t_camera *camera, float s, float t);
 t_vec3			ray_at(t_ray ray, float t);
 t_vec3			reflect(t_vec3 v, t_vec3 n);
 float			reflectance(float cosine, float ref_idx);
 t_vec3			refract(t_vec3 v, t_vec3 n, float ir);
 int				render_frame(t_data *data);
 bool			scatter(t_ray ray, t_hit hit, t_ray *scattered);
-void			set_face_normal(t_hit *hit, t_ray *ray, t_vec3 *outward_normal);
 
 // hit
+bool			hit_aabb(t_hit *hit, t_aabb *aabb, t_ray *ray,
+					t_interval interval);
 bool			hit_disk(t_hit *hit, const t_disk *disk, t_ray *ray,
 					t_interval interval);
 bool			hit_sphere(t_hit *hit, const t_sphere *sphere, t_ray *ray,
@@ -344,13 +344,11 @@ bool			hit_tube(t_hit *hit, const t_tube *tube, t_ray *ray,
 					t_interval interval);
 bool			hit_world(t_hit *hit, t_scene *scene, t_ray *ray,
 					t_interval interval);
+void			set_face_normal(t_hit *hit, t_ray *ray, t_vec3 *outward_normal);
 
 // init
 bool			init_mutexes(t_data *data);
 bool			init_thread(t_data *data);
-
-// mlx_tools
-int				handle_key_down(int keycode, t_data *data);
 bool			init_minilibx(t_mlx *mlx, char *window_title);
 
 // parsing
@@ -386,6 +384,7 @@ t_vec3			get_random_unit_vector(void);
 // structs
 t_interval		expand_interval(t_interval interval, float delta);
 bool			in_interval(t_interval interval, float x);
+t_aabb			new_aabb(t_vec3 a, t_vec3 b);
 float			vec3_dot(t_vec3 v1, t_vec3 v2);
 t_vec3			vec3_cross(t_vec3 v1, t_vec3 v2);
 bool			vec3_near_zero(t_vec3 v);
@@ -403,10 +402,10 @@ int				complain_int(char *error_message);
 void			*complain_ptr(char *error_message);
 float			fclampf(float x, float min, float max);
 void			free_data(t_data *data);
+int				handle_key_down(int keycode, t_data *data);
 bool			init_pixels(t_data *data);
 bool			init_pixel_coordinates(t_data *data);
 bool			is_close(float x, float y);
-t_aabb			new_aabb(t_vec3 a, t_vec3 b);
 void			print_vec3(char *name, t_vec3 v); // TODO remove
 int				sign(float x);
 
