@@ -127,7 +127,4 @@ re: fclean
 norm:
 	@./scripts/niih $(PATH_LIBFT) $(HEADER) $(PATH_SRCS)
 
-%:
-	@true
-
 .PHONY: all clean fclean re norm
