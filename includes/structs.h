@@ -3,6 +3,7 @@
 
 // TODO: try vec3 of doubles
 typedef float	t_vec3 __attribute__((vector_size(16)));
+struct			s_thread;
 
 /******************************************************************************/
 /*                                                                            */
@@ -196,8 +197,6 @@ typedef struct s_mutex
 	pthread_mutex_t	access_data;
 	pthread_mutex_t	access_image;
 }	t_mutex;
-
-struct			s_thread;
 
 typedef struct s_data {
 	int					frame;
