@@ -92,9 +92,11 @@ typedef struct s_plane {
 }	t_plane;
 
 typedef struct s_disk {
-	t_plane	plane;
-	float	radius;
-	t_bbox	bbox;
+	t_vec3		coord;
+	t_vec3		vector;
+	t_material	material;
+	t_bbox		bbox;
+	float		radius;
 }	t_disk;
 
 typedef struct s_tube {

@@ -5,7 +5,6 @@ static t_object	add_disk(t_tube tube, bool is_top)
 	t_vec3		axis;
 	t_vec3		scaled_axis;
 	t_vec3		coord;
-	t_plane		plane;
 	t_object	object;
 
 	axis = tube.axis;
@@ -15,9 +14,9 @@ static t_object	add_disk(t_tube tube, bool is_top)
 	else
 		scaled_axis = -scaled_axis;
 	coord = tube.center - scaled_axis;
-	plane = (t_plane){coord, axis, tube.material, bbox_infinite()};
 	object.type = OBJECT_DISK;
-	object.u.disk = (t_disk){plane, tube.radius, bbox_infinite()};
+	object.u.disk = (t_disk){coord, axis, tube.material, bbox_infinite(),
+		tube.radius};
 	return (object);
 }
 
