@@ -1,9 +1,6 @@
 #ifndef MINIRT_H
 # define MINIRT_H
 
-# include "libft.h"
-# include "mlx.h"
-
 # include <fcntl.h>
 # include <limits.h>
 # include <math.h>
@@ -17,6 +14,9 @@
 # include <X11/keysym.h>
 # include <X11/Xlib.h>
 # include <pthread.h>
+
+# include "libft.h"
+# include "mlx.h"
 
 # include "defines.h"
 # include "errors.h"
