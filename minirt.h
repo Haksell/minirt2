@@ -355,7 +355,6 @@ bool			init_minilibx(t_mlx *mlx, char *window_title);
 // parsing
 bool			ft_atof(char *s, float *ans);
 bool			ft_atof_range(char *s, float *ans, float min, float max);
-bool			get_commas2(char *s, char **s2);
 bool			get_commas3(char *s, char **s2, char **s3);
 bool			get_commas4(char *s, char **s2, char **s3, char **s4);
 char			***get_words(char *filename);

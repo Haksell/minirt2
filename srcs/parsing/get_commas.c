@@ -1,15 +1,5 @@
 #include "minirt.h"
 
-bool	get_commas2(char *s, char **s2)
-{
-	*s2 = ft_strchr(s, ',');
-	if (*s2 == NULL)
-		return (false);
-	**s2 = '\0';
-	++(*s2);
-	return (true);
-}
-
 bool	get_commas3(char *s, char **s2, char **s3)
 {
 	*s2 = ft_strchr(s, ',');
