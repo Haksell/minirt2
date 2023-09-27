@@ -27,8 +27,8 @@ bool	hit_bbox(t_hit *hit, t_bbox *bbox, t_ray *ray, t_interval interval)
 		t1 = (axis.max - ray->origin[i]) * inv_d;
 		if (inv_d < 0)
 			swap_floats(&t0, &t1);
-		interval.min = fmax(t0, interval.min);
-		interval.max = fmin(t1, interval.max);
+		interval.min = fmaxf(t0, interval.min);
+		interval.max = fminf(t1, interval.max);
 		if (interval.max <= interval.min)
 			return (false);
 		++i;

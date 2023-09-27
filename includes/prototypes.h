@@ -98,6 +98,7 @@ t_bbox			bbox_infinite(void);
 t_bbox			bbox_new(t_vec3 a, t_vec3 b);
 t_interval		expand_interval(t_interval interval, float delta);
 bool			in_interval(t_interval interval, float x);
+t_interval		interval_new(float a, float b);
 t_vec3			ray_at(t_ray ray, float t);
 t_vec3			vec3_cross(t_vec3 v1, t_vec3 v2);
 float			vec3_dist_squared(t_vec3 v1, t_vec3 v2);

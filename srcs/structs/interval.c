@@ -1,5 +1,10 @@
 #include "minirt.h"
 
+t_interval	interval_new(float a, float b)
+{
+	return ((t_interval){fminf(a, b), fmaxf(a, b)});
+}
+
 bool	in_interval(t_interval interval, float x)
 {
 	return (interval.min <= x && x <= interval.max);

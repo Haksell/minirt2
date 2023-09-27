@@ -12,8 +12,8 @@ t_bbox	bbox_infinite(void)
 t_bbox	bbox_new(t_vec3 a, t_vec3 b)
 {
 	return ((t_bbox){
-		(t_interval){fminf(a[X], b[X]), fmaxf(a[X], b[X])},
-		(t_interval){fminf(a[Y], b[Y]), fmaxf(a[Y], b[Y])},
-		(t_interval){fminf(a[Z], b[Z]), fmaxf(a[Z], b[Z])},
+		interval_new(a[X], b[X]),
+		interval_new(a[Y], b[Y]),
+		interval_new(a[Z], b[Z]),
 	});
 }
