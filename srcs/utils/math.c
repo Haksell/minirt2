@@ -25,11 +25,6 @@ bool	is_close(float x, float y)
 	return (fabs(x - y) < epsilon);
 }
 
-bool	in_interval(t_interval interval, float x)
-{
-	return (interval.min <= x && x <= interval.max);
-}
-
 int	sign(float x)
 {
 	return ((x > 0) - (x < 0));

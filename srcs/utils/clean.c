@@ -44,3 +44,10 @@ int	close_window(t_data *data)
 	exit(EXIT_SUCCESS);
 	return (EXIT_SUCCESS);
 }
+
+int	handle_key_down(int keycode, t_data *data)
+{
+	if (keycode == XK_Escape)
+		close_window(data);
+	return (EXIT_SUCCESS);
+}
