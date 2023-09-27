@@ -1,4 +1,4 @@
-NAME := miniRT
+NAME := miniRTbonus
 
 PATH_SRCS := srcs
 PATH_OBJS := objs
@@ -63,7 +63,7 @@ FILENAMES += utils/complain
 FILENAMES += utils/math
 FILENAMES += utils/print # TODO: remove
 
-HEADERS := defines errors minirt
+HEADERS := defines errors minirt prototypes structs
 
 SRCS := $(addprefix $(PATH_SRCS)/, $(addsuffix .c, $(FILENAMES)))
 OBJS := $(addprefix $(PATH_OBJS)/, $(addsuffix .o, $(FILENAMES)))
