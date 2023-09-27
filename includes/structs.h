@@ -21,11 +21,11 @@ typedef struct s_interval {
 	float	max;
 }	t_interval;
 
-typedef struct s_aabb {
+typedef struct s_bbox {
 	t_interval	x;
 	t_interval	y;
 	t_interval	z;
-}	t_aabb;
+}	t_bbox;
 
 typedef struct s_pixel_coordinate {
 	int	x;
@@ -81,17 +81,20 @@ typedef struct s_sphere {
 	t_vec3		center;
 	float		radius;
 	t_material	material;
+	t_bbox		bbox;
 }	t_sphere;
 
 typedef struct s_plane {
 	t_vec3		coord;
 	t_vec3		vector;
 	t_material	material;
+	t_bbox		bbox;
 }	t_plane;
 
 typedef struct s_disk {
 	t_plane	plane;
 	float	radius;
+	t_bbox	bbox;
 }	t_disk;
 
 typedef struct s_tube {
@@ -100,6 +103,7 @@ typedef struct s_tube {
 	float		radius;
 	float		half_height;
 	t_material	material;
+	t_bbox		bbox;
 }	t_tube;
 
 typedef enum e_object_type {

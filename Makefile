@@ -26,7 +26,7 @@ INCLUDES := -I./$(PATH_INCLUDES) -I./$(PATH_LIBFT) -I./$(PATH_MLX)
 LIBRARIES := -L$(PATH_LIBFT) -lft -lX11 -lXext -L$(PATH_MLX) -lmlx -lm
 
 FILENAMES += main
-FILENAMES += hit/hit_aabb
+FILENAMES += hit/hit_bbox
 FILENAMES += hit/hit_disk
 FILENAMES += hit/hit_plane
 FILENAMES += hit/hit_sphere
@@ -51,7 +51,7 @@ FILENAMES += render/get_color
 FILENAMES += render/light_effects
 FILENAMES += render/render_frame
 FILENAMES += render/scatter
-FILENAMES += structs/aabb
+FILENAMES += structs/bbox
 FILENAMES += structs/interval
 FILENAMES += structs/ray
 FILENAMES += structs/vec3a

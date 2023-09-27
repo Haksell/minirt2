@@ -15,9 +15,9 @@ static t_object	add_disk(t_tube tube, bool is_top)
 	else
 		scaled_axis = -scaled_axis;
 	coord = tube.center - scaled_axis;
-	plane = (t_plane){coord, axis, tube.material};
+	plane = (t_plane){coord, axis, tube.material, bbox_infinite()};
 	object.type = OBJECT_DISK;
-	object.u.disk = (t_disk){plane, tube.radius};
+	object.u.disk = (t_disk){plane, tube.radius, bbox_infinite()};
 	return (object);
 }
 
@@ -40,6 +40,7 @@ bool	parse_cylinder(t_scene *scene, char **line, int *current_object)
 	object->type = OBJECT_TUBE;
 	object->u.tube.half_height *= 0.5;
 	object->u.tube.radius *= 0.5;
+	object->u.tube.bbox = bbox_infinite();
 	scene->world[*current_object + 1] = add_disk(object->u.tube, true);
 	scene->world[*current_object + 2] = add_disk(object->u.tube, false);
 	*current_object += SURFACES_CYLINDER;
@@ -59,6 +60,7 @@ bool	parse_plane(t_scene *scene, char **line, int *current_object)
 		|| !parse_material(line[4], line[5], &object->u.plane.material))
 		return (complain_bool(ERROR_PLANE));
 	object->type = OBJECT_PLANE;
+	object->u.tube.bbox = bbox_infinite();
 	*current_object += SURFACES_PLANE;
 	return (true);
 }
@@ -67,6 +69,7 @@ bool	parse_sphere(t_scene *scene, char **line, int *current_object)
 {
 	const int	length = arrlen(line);
 	t_object	*object;
+	t_vec3		rvec;
 
 	object = &scene->world[*current_object];
 	if (length != 6
@@ -78,6 +81,9 @@ bool	parse_sphere(t_scene *scene, char **line, int *current_object)
 		return (complain_bool(ERROR_SPHERE));
 	object->type = OBJECT_SPHERE;
 	object->u.sphere.radius *= 0.5;
+	rvec = (t_vec3){sphere->radius, sphere->radius, sphere->radius};
+	object->u.sphere.bbox = bbox_new(sphere->center - sphere->radius,
+			sphere->center + sphere->radius);
 	*current_object += SURFACES_SPHERE;
 	return (true);
 }

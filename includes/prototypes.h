@@ -9,7 +9,7 @@ typedef bool	(*t_scatter_func)(t_ray, t_hit, t_ray *);
 /*                                                                            */
 /******************************************************************************/
 
-bool			hit_aabb(t_hit *hit, t_aabb *aabb, t_ray *ray,
+bool			hit_bbox(t_hit *hit, t_bbox *bbox, t_ray *ray,
 					t_interval interval);
 bool			hit_disk(t_hit *hit, const t_disk *disk, t_ray *ray,
 					t_interval interval);
@@ -94,9 +94,10 @@ bool			scatter(t_ray ray, t_hit hit, t_ray *scattered);
 /*                                                                            */
 /******************************************************************************/
 
+t_bbox			bbox_infinite(void);
+t_bbox			bbox_new(t_vec3 a, t_vec3 b);
 t_interval		expand_interval(t_interval interval, float delta);
 bool			in_interval(t_interval interval, float x);
-t_aabb			new_aabb(t_vec3 a, t_vec3 b);
 t_vec3			ray_at(t_ray ray, float t);
 t_vec3			vec3_cross(t_vec3 v1, t_vec3 v2);
 float			vec3_dist_squared(t_vec3 v1, t_vec3 v2);
