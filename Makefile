@@ -1,6 +1,8 @@
 NAME := miniRT
-HEADER := minirt.h # TODO: headers
-DEFAULT_SCENE := scenes/valid/image21.rt
+
+PATH_SRCS := srcs
+PATH_OBJS := objs
+PATH_INCLUDES := includes
 
 PATH_LIBFT := libft
 LIBFT := $(PATH_LIBFT)/libft.a
@@ -20,7 +22,7 @@ GARBAGE := .vscode
 YEET := 1>/dev/null 2>/dev/null
 
 CC := cc -Wall -Wextra -Werror -Ofast -mavx -g3
-INCLUDES := -I./ -I./$(PATH_LIBFT) -I./$(PATH_MLX)
+INCLUDES := -I./$(PATH_INCLUDES) -I./$(PATH_LIBFT) -I./$(PATH_MLX)
 LIBRARIES := -L$(PATH_LIBFT) -lft -lX11 -lXext -L$(PATH_MLX) -lmlx -lm
 
 FILENAMES += main
@@ -61,11 +63,11 @@ FILENAMES += utils/complain
 FILENAMES += utils/math
 FILENAMES += utils/print # TODO: remove
 
-PATH_SRCS := srcs
-PATH_OBJS := objs
+HEADERS := defines errors minirt
 
 SRCS := $(addprefix $(PATH_SRCS)/, $(addsuffix .c, $(FILENAMES)))
 OBJS := $(addprefix $(PATH_OBJS)/, $(addsuffix .o, $(FILENAMES)))
+HEADERS := $(addprefix $(PATH_INCLUDES)/, $(addsuffix .h, $(HEADERS)))
 
 define clone_repo
 	@echo "$(GREEN)==> Cloning $(1)$(RESET)"
@@ -90,7 +92,7 @@ all: $(NAME)
 $(PATH_OBJS):
 	@mkdir -p $(sort $(dir $(OBJS)))
 
-$(OBJS): $(PATH_OBJS)/%.o: $(PATH_SRCS)/%.c $(HEADER) $(LIBFT) $(MLX) | $(PATH_OBJS)
+$(OBJS): $(PATH_OBJS)/%.o: $(PATH_SRCS)/%.c $(HEADERS) $(LIBFT) $(MLX) | $(PATH_OBJS)
 	@mkdir -p $(PATH_OBJS)
 	@$(CC) -c $< -o $@ $(INCLUDES)
 	@echo "$(BLUE)+++ $@$(RESET)"
@@ -123,16 +125,10 @@ fclean: clean
 re: fclean
 	@$(MAKE) -s $(NAME)
 
-run: $(NAME)
-	@./$(NAME) $(or $(firstword $(filter-out $@, $(MAKECMDGOALS))), $(DEFAULT_SCENE))
-
-rerun: fclean
-	@$(MAKE) -s run
-
 norm:
 	@./scripts/niih $(PATH_LIBFT) $(HEADER) $(PATH_SRCS)
 
 %:
 	@true
 
-.PHONY: all clean fclean re run rerun norm
+.PHONY: all clean fclean re norm
