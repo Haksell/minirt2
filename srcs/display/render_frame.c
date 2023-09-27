@@ -57,9 +57,9 @@ static void	render_pixel(t_data *data, int y, int x)
 		fclampf(pixel_color[Y], 0, 1),
 		fclampf(pixel_color[Z], 0, 1)
 	};
-	data->pixels[y][x] = (data->pixels[y][x] * frame + pixel_color)
+	data->pixel_colors[y][x] = (data->pixel_colors[y][x] * frame + pixel_color)
 		/ (frame + 1);
-	pixel_put(&data->mlx, x, y, data->pixels[y][x]);
+	pixel_put(&data->mlx, x, y, data->pixel_colors[y][x]);
 }
 
 void	render_thread_frame(t_thread *thread)

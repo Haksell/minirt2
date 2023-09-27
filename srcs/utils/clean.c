@@ -20,7 +20,8 @@ static void	wait_threads(t_data *data)
 
 void	free_data(t_data *data)
 {
-	ft_free_double((void ***)&data->pixels);
+	ft_free_double((void ***)&data->pixel_colors);
+	free(data->pixel_coordinates);
 	free(data->scene.world);
 	if (data->mlx.mlx != NULL)
 	{

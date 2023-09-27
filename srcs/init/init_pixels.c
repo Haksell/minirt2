@@ -1,19 +1,19 @@
 #include "minirt.h"
 
-bool	init_pixels(t_data *data)
+bool	init_pixel_colors(t_data *data)
 {
 	int	i;
 
-	data->pixels = ft_calloc(WINDOW_HEIGHT + 1, sizeof(t_vec3 *));
-	if (data->pixels == NULL)
+	data->pixel_colors = ft_calloc(WINDOW_HEIGHT + 1, sizeof(t_vec3 *));
+	if (data->pixel_colors == NULL)
 		return (complain_bool(MALLOC_ERROR));
 	i = 0;
 	while (i < WINDOW_HEIGHT)
 	{
-		data->pixels[i] = ft_calloc(WINDOW_WIDTH, sizeof(t_vec3));
-		if (data->pixels[i] == NULL)
+		data->pixel_colors[i] = ft_calloc(WINDOW_WIDTH, sizeof(t_vec3));
+		if (data->pixel_colors[i] == NULL)
 		{
-			ft_free_double((void ***)&data->pixels);
+			ft_free_double((void ***)&data->pixel_colors);
 			return (complain_bool(MALLOC_ERROR));
 		}
 		++i;
@@ -21,10 +21,10 @@ bool	init_pixels(t_data *data)
 	return (true);
 }
 
-static void	shuffle_coordinates(t_pixel *pixel_coordinates)
+static void	shuffle_coordinates(t_pixel_coordinate *pixel_coordinates)
 {
 	const unsigned int	arr_size = WINDOW_HEIGHT * WINDOW_WIDTH;
-	t_pixel				tmp;
+	t_pixel_coordinate	tmp;
 	int					i;
 	int					j;
 
@@ -46,7 +46,7 @@ bool	init_pixel_coordinates(t_data *data)
 	int	x;
 
 	data->pixel_coordinates = ft_calloc(WINDOW_HEIGHT * WINDOW_WIDTH,
-			sizeof(t_pixel *));
+			sizeof(t_pixel_coordinate *));
 	if (data->pixel_coordinates == NULL)
 		return (complain_bool(MALLOC_ERROR));
 	i = 0;
@@ -56,7 +56,7 @@ bool	init_pixel_coordinates(t_data *data)
 		x = 0;
 		while (x < WINDOW_WIDTH)
 		{
-			data->pixel_coordinates[i] = (t_pixel){x, y};
+			data->pixel_coordinates[i] = (t_pixel_coordinate){x, y};
 			++x;
 			++i;
 		}

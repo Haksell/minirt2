@@ -122,10 +122,10 @@ typedef struct s_aabb {
 	t_interval	z;
 }	t_aabb;
 
-typedef struct s_pixel {
+typedef struct s_pixel_coordinate {
 	int	x;
 	int	y;
-}	t_pixel;
+}	t_pixel_coordinate;
 
 /******************************************************************************/
 /*                                                                            */
@@ -289,25 +289,25 @@ typedef struct s_mutex
 struct	s_thread;
 
 typedef struct s_data {
-	int				frame;
-	int				cpus_count;
-	bool			stop;
-	t_mutex			mutex;
-	t_mlx			mlx;
-	t_vec3			**pixels; // TODO: pixel_colors
-	t_pixel			*pixel_coordinates;
-	t_scene			scene;
+	int					frame;
+	int					cpus_count;
+	bool				stop;
+	t_mutex				mutex;
+	t_mlx				mlx;
+	t_vec3				**pixel_colors;
+	t_pixel_coordinate	*pixel_coordinates;
+	t_scene				scene;
 	struct s_thread	*threads;
 }	t_data;
 
 typedef struct s_thread
 {
-	int			idx;
-	int			cur_frame;
-	pthread_t	pthread_id;
-	t_pixel		*pixels_to_manage;
-	size_t		pixels_count;
-	t_data		*data;
+	int					idx;
+	int					cur_frame;
+	pthread_t			pthread_id;
+	t_pixel_coordinate	*pixels_to_manage;
+	size_t				pixels_count;
+	t_data				*data;
 }	t_thread;
 
 /******************************************************************************/
@@ -403,7 +403,7 @@ void			*complain_ptr(char *error_message);
 float			fclampf(float x, float min, float max);
 void			free_data(t_data *data);
 int				handle_key_down(int keycode, t_data *data);
-bool			init_pixels(t_data *data);
+bool			init_pixel_colors(t_data *data);
 bool			init_pixel_coordinates(t_data *data);
 bool			is_close(float x, float y);
 void			print_vec3(char *name, t_vec3 v); // TODO remove

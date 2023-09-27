@@ -10,7 +10,7 @@ static size_t	cut_pixels(int i)
 	return (WINDOW_WIDTH * WINDOW_HEIGHT * i / CPUS);
 }
 
-// TODO: protect mallocs
+// TODO: protect callocs
 bool	init_thread(t_data *data)
 {
 	size_t	i;
@@ -19,7 +19,7 @@ bool	init_thread(t_data *data)
 	size_t	end;
 
 	i = 0;
-	data->threads = malloc(CPUS * sizeof(t_thread));
+	data->threads = ft_calloc(CPUS, sizeof(t_thread));
 	while (i < CPUS)
 	{
 		data->threads[i].idx = i;
@@ -28,11 +28,13 @@ bool	init_thread(t_data *data)
 		start = cut_pixels(i);
 		end = cut_pixels(i + 1);
 		data->threads[i].pixels_count = end - start;
-		data->threads[i].pixels_to_manage = malloc(sizeof(t_pixel) * (end - start));
+		data->threads[i].pixels_to_manage = ft_calloc(
+				data->threads[i].pixels_count, sizeof(t_pixel_coordinate));
 		j = 0;
 		while (j < data->threads[i].pixels_count)
 		{
-			data->threads[i].pixels_to_manage[j] = data->pixel_coordinates[start + j];
+			data->threads[i].pixels_to_manage[j]
+				= data->pixel_coordinates[start + j];
 			j++;
 		}
 		if (pthread_create(&data->threads[i].pthread_id, NULL,
