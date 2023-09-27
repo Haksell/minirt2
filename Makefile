@@ -49,7 +49,6 @@ FILENAMES += random/random_uint
 FILENAMES += random/random_vector
 FILENAMES += render/get_color
 FILENAMES += render/light_effects
-FILENAMES += render/phong
 FILENAMES += render/render_frame
 FILENAMES += render/scatter
 FILENAMES += structs/aabb
