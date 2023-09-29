@@ -43,6 +43,7 @@ FILENAMES += parsing/parse_elements
 FILENAMES += parsing/parse_material
 FILENAMES += parsing/parse_objects
 FILENAMES += parsing/parse_scene
+FILENAMES += parsing/parse_textures
 FILENAMES += parsing/parse_vectors
 FILENAMES += random/random_float
 FILENAMES += random/random_uint

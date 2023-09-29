@@ -39,7 +39,18 @@ static bool	get_light_count(char *word, int *n)
 	return (false);
 }
 
-static bool	count_objects(char ***words, int *nb_obj, int *nb_lights)
+static bool	get_textures_count(char *word, int *n)
+{
+	if (ft_strcmp(word, "T") == 0)
+	{
+		*n += 1;
+		return (true);
+	}
+	return (false);
+}
+
+static bool	count_objects(char ***words, int *nb_obj, int *nb_lights,
+				int *nb_textures)
 {
 	char	*word;
 	int		i;
@@ -51,14 +62,16 @@ static bool	count_objects(char ***words, int *nb_obj, int *nb_lights)
 		if (word == NULL)
 			return (complain_bool(SPACY_LINE));
 		if (!get_light_count(word, nb_lights)
-			&& !get_surface_count(word, nb_obj))
+			&& !get_surface_count(word, nb_obj)
+			&& !get_textures_count(word, nb_textures))
 			return (complain_bool(INVALID_IDENTIFIER));
 		++i;
 	}
 	return (true);
 }
 
-static bool	parse_line(t_scene *scene, char **line, int *current_object, int *current_light)
+static bool	parse_line(t_scene *scene, char **line, int *current_object,
+				int *current_light, int *current_texture)
 {
 	if (ft_strcmp(line[0], "A") == 0)
 		return (parse_ambient(scene, line));
@@ -66,6 +79,8 @@ static bool	parse_line(t_scene *scene, char **line, int *current_object, int *cu
 		return (parse_camera(scene, line));
 	else if (ft_strcmp(line[0], "L") == 0)
 		return (parse_lights(scene, line, current_light));
+	else if (ft_strcmp(line[0], "T") == 0)
+		return (parse_textures(scene, line, current_texture));
 	else if (ft_strcmp(line[0], "sp") == 0)
 		return (parse_sphere(scene, line, current_object));
 	else if (ft_strcmp(line[0], "pl") == 0)
@@ -79,15 +94,20 @@ static bool	parse_scene2(t_scene *scene, char ***words)
 {
 	int	current_object;
 	int	current_light;
+	int	current_texture;
 	int	i;
 
 	current_object = 0;
+	current_light = 0;
+	current_texture = 0;
 	i = 0;
 	while (words[i] != NULL)
 	{
-		if (!parse_line(scene, words[i], &current_object, &current_light))
+		if (!parse_line(scene, words[i], &current_object,
+				&current_light, &current_texture))
 		{
 			ft_free_triple((void ****)&words);
+			free_textures_names(scene->textures, scene->nb_textures); // TODO: add where needed
 			return (false);
 		}
 		++i;
@@ -108,18 +128,23 @@ bool	parse_scene(t_scene *scene, int argc, char **argv)
 		return (complain_bool(USAGE_BONUS));
 	words = get_words(argv[1]);
 	if (words == NULL
-		|| !count_objects(words, &scene->nb_obj, &scene->nb_lights))
+		|| !count_objects(words, &scene->nb_obj, &scene->nb_lights,
+			&scene->nb_textures))
 	{
 		ft_free_triple((void ****)&words);
 		return (false);
 	}
-	scene->world = malloc(scene->nb_obj * sizeof(t_object));
-	scene->lights = malloc(scene->nb_lights * sizeof(t_light));
-	if (scene->world == NULL || scene->lights == NULL)
+	printf("nb_lights: %i\n", scene->nb_lights);
+	scene->world = ft_calloc(scene->nb_obj, sizeof(t_object));
+	scene->lights = ft_calloc(scene->nb_lights, sizeof(t_light));
+	scene->textures = ft_calloc(scene->nb_textures, sizeof(t_texture));
+	if (scene->world == NULL || scene->lights == NULL
+		|| scene->textures == NULL)
 	{
 		ft_free_triple((void ****)&words);
 		free(scene->world);
 		free(scene->lights);
+		free(scene->textures);
 		return (complain_bool(MALLOC_ERROR));
 	}
 	return (parse_scene2(scene, words));

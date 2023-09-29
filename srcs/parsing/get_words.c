@@ -41,7 +41,7 @@ static char	*get_file_content(char *filename)
 	fd = open(filename, O_RDONLY);
 	if (fd == -1)
 		return (complain_ptr(OPEN_ERROR));
-	res = malloc((total + 1) * sizeof(char));
+	res = ft_calloc((total + 1), sizeof(char));
 	if (res == NULL)
 		return (close(fd), complain_ptr(MALLOC_ERROR));
 	res[total] = '\0';

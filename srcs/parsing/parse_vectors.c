@@ -24,11 +24,13 @@ bool	parse_color(char *s, t_vec3 *color)
 {
 	char	*s2;
 	char	*s3;
+	float	*color_ptr;
 
+	color_ptr = (float *)color;
 	return (get_commas3(s, &s2, &s3)
-		&& parse_component(s, (float *)color + X)
-		&& parse_component(s2, (float *)color + Y)
-		&& parse_component(s3, (float *)color + Z));
+		&& parse_component(s, &color_ptr[X])
+		&& parse_component(s2, &color_ptr[Y])
+		&& parse_component(s3, &color_ptr[Z]));
 }
 
 bool	parse_coord(char *s, t_vec3 *coord)

@@ -42,6 +42,7 @@ bool			init_thread(t_data *data);
 /******************************************************************************/
 
 bool			ft_atof(char *s, float *ans);
+bool			ft_atof_vec(char *s, t_vec3 *ans, int coord);
 bool			ft_atof_range(char *s, float *ans, float min, float max);
 bool			get_commas3(char *s, char **s2, char **s3);
 bool			get_commas4(char *s, char **s2, char **s3, char **s4);
@@ -59,6 +60,11 @@ bool			parse_normalized_vector(char *s, t_vec3 *vector);
 bool			parse_plane(t_scene *scene, char **line, int *current_object);
 bool			parse_scene(t_scene *scene, int argc, char **argv);
 bool			parse_sphere(t_scene *scene, char **line, int *current_object);
+bool			parse_textures(t_scene *scene, char **line,
+					int *current_texture);
+bool			parse_checkered_texture(t_scene *scene, char **line,
+					int *cur_text, int len_line);
+bool			affect_texture(t_scene *scene, char *name, t_texture *texture);
 
 /******************************************************************************/
 /*                                                                            */
@@ -120,6 +126,7 @@ int				complain_int(char *error_message);
 void			*complain_ptr(char *error_message);
 float			fclampf(float x, float min, float max);
 void			free_data(t_data *data);
+void			free_textures_names(t_texture *textures, int nb_textures);
 int				handle_key_down(int keycode, t_data *data);
 bool			is_close(float x, float y);
 void			print_vec3(char *name, t_vec3 v); // TODO: remove

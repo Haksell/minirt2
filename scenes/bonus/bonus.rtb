@@ -27,3 +27,5 @@ bump map
 checkerboard
 light material
 skybox/texture
+
+T checkered _name _color1 _color2 _scale

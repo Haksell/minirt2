@@ -73,6 +73,32 @@ typedef struct t_material {
 
 /******************************************************************************/
 /*                                                                            */
+/*                                  TEXTURES                                  */
+/*                                                                            */
+/******************************************************************************/
+
+typedef struct s_checkered {
+	t_vec3	color1;
+	t_vec3	color2;
+	float	scale;
+}	t_checkered;
+
+typedef enum e_texture_type {
+	TEXTURE_CHECKERED = 0,
+}	t_texture_type;
+
+typedef union u_texture_union {
+	t_checkered	checkered;
+}	t_texture_union;
+
+typedef struct s_texture {
+	t_texture_type	type;
+	t_texture_union	u;
+	char			*name;
+}	t_texture;
+
+/******************************************************************************/
+/*                                                                            */
 /*                                  OBJECTS                                   */
 /*                                                                            */
 /******************************************************************************/
@@ -81,12 +107,14 @@ typedef struct s_sphere {
 	t_vec3		center;
 	float		radius;
 	t_material	material;
+	t_texture	*texture;
 }	t_sphere;
 
 typedef struct s_plane {
 	t_vec3		coord;
 	t_vec3		vector;
 	t_material	material;
+	t_texture	*texture;
 }	t_plane;
 
 typedef struct s_disk {
@@ -100,6 +128,7 @@ typedef struct s_tube {
 	float		radius;
 	float		half_height;
 	t_material	material;
+	t_texture	*texture;
 }	t_tube;
 
 typedef enum e_object_type {
@@ -120,6 +149,7 @@ typedef struct s_object {
 	t_object_type	type;
 	t_object_union	u;
 }	t_object;
+
 
 /******************************************************************************/
 /*                                                                            */
@@ -172,8 +202,10 @@ typedef struct s_scene {
 	t_camera	camera;
 	t_light		*lights;
 	t_object	*world;
+	t_texture	*textures;
 	int			nb_obj;
 	int			nb_lights;
+	int			nb_textures;
 }	t_scene;
 
 typedef struct s_mlx {

@@ -19,6 +19,7 @@
 # define NO_CAMERA "There is no camera"
 # define NO_LIGHT "There is no light"
 # define FOV_ERROR "Field of view is invalid"
+# define ERROR_TEXTURE "Error parsing texture"
 
 # define ERROR_CYLINDER "Error parsing cylinder"
 # define ERROR_PLANE "Error parsing plane"

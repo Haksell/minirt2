@@ -34,6 +34,20 @@ void	free_data(t_data *data)
 	}
 }
 
+void	free_textures_names(t_texture *textures, int nb_textures)
+{
+	int	i;
+
+	i = 0;
+	while (i < nb_textures)
+	{
+		if (textures[i].name)
+			free(textures[i].name);
+		i++;
+	}
+	free(textures);
+}
+
 int	close_window(t_data *data)
 {
 	pthread_mutex_lock(&data->mutex.access_data);

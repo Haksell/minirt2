@@ -56,6 +56,7 @@ bool	parse_lights(t_scene *scene, char **line, int *current_light)
 	const int	length = arrlen(line);
 	float		brightness;
 
+	printf("parse_lights, current light nb: %i\n", *current_light);
 	if (length != 4
 		|| !parse_coord(line[1], &scene->lights[*current_light].coord)
 		|| !ft_atof_range(line[2], &brightness, 0, 1)
@@ -64,5 +65,18 @@ bool	parse_lights(t_scene *scene, char **line, int *current_light)
 	scene->lights[*current_light].color = brightness
 		* scene->lights[*current_light].color;
 	++(*current_light);
+	return (true);
+}
+
+bool	parse_textures(t_scene *scene, char **line, int *current_texture)
+{
+	const int	length = arrlen(line);
+
+	if (length < 3)
+		return (complain_bool(ERROR_TEXTURE));
+	if (ft_strcmp(line[1], "checkered") == 0)
+	{
+		return (parse_checkered_texture(scene, line, current_texture, length));
+	}
 	return (true);
 }
