@@ -2,7 +2,7 @@
 
 static t_vec3	get_ambient_color(t_scene *scene, t_hit *hit)
 {
-	return (hit->material.albedo
+	return (hit->hit_color
 		* scene->ambient.color
 		* hit->material.u.lambertian.ka);
 }
@@ -13,7 +13,7 @@ static t_vec3	get_diffuse_color(t_light *light, t_hit *hit, t_ray *light_ray)
 		* LIGHT_INTENSITY
 		* fmaxf(vec3_dot(light_ray->direction, hit->normal), 0)
 		/ (light_ray->distance * light_ray->distance)
-		* hit->material.albedo
+		* hit->hit_color
 		* hit->material.u.lambertian.kd);
 }
 
@@ -48,7 +48,7 @@ t_vec3	get_color(t_scene *scene, t_hit *hit, t_ray ray)
 	t_light	*light;
 
 	if (hit->material.type != MATERIAL_LAMBERTIAN)
-		return (hit->material.albedo);
+		return (hit->hit_color);
 	color = get_ambient_color(scene, hit);
 	i = 0;
 	while (i < scene->nb_lights)

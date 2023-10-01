@@ -80,11 +80,13 @@ typedef struct t_material {
 typedef struct s_checkered {
 	t_vec3	color1;
 	t_vec3	color2;
-	float	scale;
+	float	squares_height;
+	float	squares_width;
 }	t_checkered;
 
 typedef enum e_texture_type {
-	TEXTURE_CHECKERED = 0,
+	TEXTURE_NONE = 0,
+	TEXTURE_CHECKERED,
 }	t_texture_type;
 
 typedef union u_texture_union {
@@ -107,14 +109,14 @@ typedef struct s_sphere {
 	t_vec3		center;
 	float		radius;
 	t_material	material;
-	t_texture	*texture;
+	t_texture	texture;
 }	t_sphere;
 
 typedef struct s_plane {
 	t_vec3		coord;
 	t_vec3		vector;
 	t_material	material;
-	t_texture	*texture;
+	t_texture	texture;
 }	t_plane;
 
 typedef struct s_disk {
@@ -128,7 +130,7 @@ typedef struct s_tube {
 	float		radius;
 	float		half_height;
 	t_material	material;
-	t_texture	*texture;
+	t_texture	texture;
 }	t_tube;
 
 typedef enum e_object_type {
@@ -194,6 +196,7 @@ typedef struct s_hit {
 	float		t;
 	t_vec3		point;
 	t_vec3		normal;
+	t_vec3		hit_color;
 	t_material	material;
 }	t_hit;
 

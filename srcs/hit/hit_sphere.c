@@ -21,6 +21,30 @@ static bool	get_root(t_ray *ray, const t_sphere *sphere, t_interval interval,
 	return (in_interval(interval, *root));
 }
 
+static	t_vec3	get_hit_color_sphere(const t_hit *hit, const t_sphere *sphere)
+{
+	float	u;
+	float	v;
+	t_vec3	corrected_hit_point;
+
+	if (sphere->texture.type == TEXTURE_NONE)
+		return (sphere->material.albedo);
+	else if (sphere->texture.type == TEXTURE_CHECKERED)
+	{
+		corrected_hit_point = hit->point - sphere->center;
+		u = -atan2(corrected_hit_point[X],
+				corrected_hit_point[Z]) / (2 * M_PI) + 0.5;
+		v = 1 - acos(corrected_hit_point[Y] / sphere->radius) / M_PI;
+		if (((int)floor(u * sphere->texture.u.checkered.squares_width)
+				+ (int)floor(v * sphere->texture.u.checkered.squares_height))
+			% 2 == 0)
+			return (sphere->texture.u.checkered.color1);
+		else
+			return (sphere->texture.u.checkered.color2);
+	}
+	return (sphere->material.albedo);
+}
+
 bool	hit_sphere(t_hit *hit, const t_sphere *sphere, t_ray *ray,
 	t_interval interval)
 {
@@ -32,6 +56,7 @@ bool	hit_sphere(t_hit *hit, const t_sphere *sphere, t_ray *ray,
 	hit->t = root;
 	hit->point = ray_at(*ray, hit->t);
 	hit->material = sphere->material;
+	hit->hit_color = get_hit_color_sphere(hit, sphere);
 	outward_normal = (hit->point - sphere->center) / sphere->radius;
 	set_face_normal(hit, ray, &outward_normal);
 	return (true);

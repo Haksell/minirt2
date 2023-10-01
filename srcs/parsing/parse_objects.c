@@ -38,7 +38,8 @@ bool	parse_cylinder(t_scene *scene, char **line, int *current_object)
 		|| !parse_material(line[6], line[7], &object->u.tube.material)
 	)
 		return (complain_bool(ERROR_CYLINDER));
-	if (length == 9 && !affect_texture(scene, line[8], object->u.tube.texture))
+	object->u.tube.texture.type = TEXTURE_NONE;
+	if (length == 9 && !affect_texture(scene, line[8], &object->u.tube.texture))
 		return (complain_bool(ERROR_TEXTURE));
 	object->type = OBJECT_TUBE;
 	object->u.tube.half_height *= 0.5;
@@ -61,7 +62,9 @@ bool	parse_plane(t_scene *scene, char **line, int *current_object)
 		|| !parse_color(line[3], &object->u.plane.material.albedo)
 		|| !parse_material(line[4], line[5], &object->u.plane.material))
 		return (complain_bool(ERROR_PLANE));
-	if (length == 8 && !affect_texture(scene, line[6], object->u.plane.texture))
+	object->u.plane.texture.type = TEXTURE_NONE;
+	if (length == 7
+		&& !affect_texture(scene, line[6], &object->u.plane.texture))
 		return (complain_bool(ERROR_TEXTURE));
 	object->type = OBJECT_PLANE;
 	*current_object += SURFACES_PLANE;
@@ -81,7 +84,9 @@ bool	parse_sphere(t_scene *scene, char **line, int *current_object)
 		|| !parse_color(line[3], &object->u.sphere.material.albedo)
 		|| !parse_material(line[4], line[5], &object->u.sphere.material))
 		return (complain_bool(ERROR_SPHERE));
-	if (length == 8 && !affect_texture(scene, line[6], object->u.sphere.texture))
+	object->u.sphere.texture.type = TEXTURE_NONE;
+	if (length == 7
+		&& !affect_texture(scene, line[6], &object->u.sphere.texture))
 		return (complain_bool(ERROR_TEXTURE));
 	object->type = OBJECT_SPHERE;
 	object->u.sphere.radius *= 0.5;
