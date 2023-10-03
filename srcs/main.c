@@ -5,10 +5,10 @@ int	main(int argc, char **argv)
 	t_data	data;
 
 	ft_bzero(&data, sizeof(data));
-	if (!parse_scene(&data.scene, argc, argv)
+	if (!init_minilibx(&data.mlx, argv[1])
+		|| !parse_scene(&data.scene, data.mlx.mlx, argc, argv)
 		|| !init_pixel_colors(&data)
 		|| !init_pixel_coordinates(&data)
-		|| !init_minilibx(&data.mlx, argv[1])
 		|| !init_mutexes(&data)
 		|| !init_thread(&data))
 	{

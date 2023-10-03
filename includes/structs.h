@@ -84,13 +84,25 @@ typedef struct s_checkered {
 	float	squares_width;
 }	t_checkered;
 
+typedef struct s_image {
+	int		width;
+	int		height;
+	void	*img;
+	char	*addr;
+	int		bpp;
+	int		line_length;
+	int		endian;
+}	t_image;
+
 typedef enum e_texture_type {
 	TEXTURE_NONE = 0,
 	TEXTURE_CHECKERED,
+	TEXTURE_IMAGE,
 }	t_texture_type;
 
 typedef union u_texture_union {
 	t_checkered	checkered;
+	t_image		image;
 }	t_texture_union;
 
 typedef struct s_texture {

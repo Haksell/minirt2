@@ -70,7 +70,7 @@ static bool	count_objects(char ***words, int *nb_obj, int *nb_lights,
 	return (true);
 }
 
-static bool	parse_line(t_scene *scene, char **line, int *current_object,
+static bool	parse_line(t_scene *scene, void *mlx_ptr, char **line, int *current_object,
 				int *current_light, int *current_texture)
 {
 	if (ft_strcmp(line[0], "A") == 0)
@@ -80,7 +80,7 @@ static bool	parse_line(t_scene *scene, char **line, int *current_object,
 	else if (ft_strcmp(line[0], "L") == 0)
 		return (parse_lights(scene, line, current_light));
 	else if (ft_strcmp(line[0], "T") == 0)
-		return (parse_textures(scene, line, current_texture));
+		return (parse_textures(scene, mlx_ptr, line, current_texture));
 	else if (ft_strcmp(line[0], "sp") == 0)
 		return (parse_sphere(scene, line, current_object));
 	else if (ft_strcmp(line[0], "pl") == 0)
@@ -90,7 +90,7 @@ static bool	parse_line(t_scene *scene, char **line, int *current_object,
 	return (false);
 }
 
-static bool	parse_scene2(t_scene *scene, char ***words)
+static bool	parse_scene2(t_scene *scene, void *mlx_ptr, char ***words)
 {
 	int	current_object;
 	int	current_light;
@@ -103,7 +103,7 @@ static bool	parse_scene2(t_scene *scene, char ***words)
 	i = 0;
 	while (words[i] != NULL)
 	{
-		if (!parse_line(scene, words[i], &current_object,
+		if (!parse_line(scene, mlx_ptr, words[i], &current_object,
 				&current_light, &current_texture))
 		{
 			ft_free_triple((void ****)&words);
@@ -120,7 +120,7 @@ static bool	parse_scene2(t_scene *scene, char ***words)
 	return (true);
 }
 
-bool	parse_scene(t_scene *scene, int argc, char **argv)
+bool	parse_scene(t_scene *scene, void* mlx_ptr, int argc, char **argv)
 {
 	char	***words;
 
@@ -147,5 +147,5 @@ bool	parse_scene(t_scene *scene, int argc, char **argv)
 		free(scene->textures);
 		return (complain_bool(MALLOC_ERROR));
 	}
-	return (parse_scene2(scene, words));
+	return (parse_scene2(scene, mlx_ptr, words));
 }

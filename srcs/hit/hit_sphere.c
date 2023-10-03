@@ -21,26 +21,46 @@ static bool	get_root(t_ray *ray, const t_sphere *sphere, t_interval interval,
 	return (in_interval(interval, *root));
 }
 
+static t_vec3	img_pix_get(const t_image *img, int x, int y)
+{
+	char	*pixel;
+	int		color;
+	t_vec3	color_vec;
+
+	pixel = img->addr + (y * img->line_length + x * (img->bpp / 8));
+	color = *((int *) pixel);
+	color_vec[X] = ((color >> 16) & 0xFF) / 255.0;
+	color_vec[Y] = ((color >> 8) & 0xFF) / 255.0;
+	color_vec[Z] = (color & 0xFF) / 255.0;
+	return (color_vec);
+}
+
 static	t_vec3	get_hit_color_sphere(const t_hit *hit, const t_sphere *sphere)
 {
 	float	u;
 	float	v;
 	t_vec3	corrected_hit_point;
 
+	corrected_hit_point = hit->point - sphere->center;
+	u = atan2(corrected_hit_point[X],
+			corrected_hit_point[Z]) / (2 * M_PI) + 0.5;
+	v = acos(corrected_hit_point[Y] / sphere->radius) / M_PI;
 	if (sphere->texture.type == TEXTURE_NONE)
 		return (sphere->material.albedo);
 	else if (sphere->texture.type == TEXTURE_CHECKERED)
 	{
-		corrected_hit_point = hit->point - sphere->center;
-		u = -atan2(corrected_hit_point[X],
-				corrected_hit_point[Z]) / (2 * M_PI) + 0.5;
-		v = 1 - acos(corrected_hit_point[Y] / sphere->radius) / M_PI;
 		if (((int)floor(u * sphere->texture.u.checkered.squares_width)
 				+ (int)floor(v * sphere->texture.u.checkered.squares_height))
 			% 2 == 0)
 			return (sphere->texture.u.checkered.color1);
 		else
 			return (sphere->texture.u.checkered.color2);
+	}
+	else if (sphere->texture.type == TEXTURE_IMAGE)
+	{
+		u = floor(u * sphere->texture.u.image.width);
+		v = floor(v * sphere->texture.u.image.height);
+		return (img_pix_get(&sphere->texture.u.image, u, v));
 	}
 	return (sphere->material.albedo);
 }

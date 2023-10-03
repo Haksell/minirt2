@@ -58,11 +58,13 @@ bool			parse_material(char *material_name, char *attributes,
 					t_material *material);
 bool			parse_normalized_vector(char *s, t_vec3 *vector);
 bool			parse_plane(t_scene *scene, char **line, int *current_object);
-bool			parse_scene(t_scene *scene, int argc, char **argv);
+bool			parse_scene(t_scene *scene, void *mlx_ptr, int argc, char **argv);
 bool			parse_sphere(t_scene *scene, char **line, int *current_object);
-bool			parse_textures(t_scene *scene, char **line,
+bool			parse_textures(t_scene *scene, void *mlx_ptr, char **line,
 					int *current_texture);
 bool			parse_checkered_texture(t_scene *scene, char **line,
+					int *cur_text, int len_line);
+bool			parse_image_texture(t_scene *scene, void* mlx_ptr, char **line,
 					int *cur_text, int len_line);
 bool			affect_texture(t_scene *scene, char *name, t_texture *texture);
 

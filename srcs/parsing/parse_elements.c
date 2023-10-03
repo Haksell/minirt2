@@ -68,15 +68,15 @@ bool	parse_lights(t_scene *scene, char **line, int *current_light)
 	return (true);
 }
 
-bool	parse_textures(t_scene *scene, char **line, int *current_texture)
+bool	parse_textures(t_scene *scene, void *mlx_ptr, char **line, int *current_texture)
 {
 	const int	length = arrlen(line);
 
-	if (length < 3)
+	if (length < 4)
 		return (complain_bool(ERROR_TEXTURE));
 	if (ft_strcmp(line[1], "checkered") == 0)
-	{
 		return (parse_checkered_texture(scene, line, current_texture, length));
-	}
-	return (true);
+	else if (ft_strcmp(line[1], "image") == 0)
+		return (parse_image_texture(scene, mlx_ptr, line, current_texture, length));
+	return (complain_bool(ERROR_TEXTURE));
 }
