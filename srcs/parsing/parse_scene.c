@@ -113,12 +113,12 @@ bool	parse_scene(t_scene *scene, int argc, char **argv)
 		ft_free_triple((void ****)&words);
 		return (false);
 	}
-	scene->world = malloc(scene->nb_obj * sizeof(t_object));
+	scene->objects = malloc(scene->nb_obj * sizeof(t_object));
 	scene->lights = malloc(scene->nb_lights * sizeof(t_light));
-	if (scene->world == NULL || scene->lights == NULL)
+	if (scene->objects == NULL || scene->lights == NULL)
 	{
 		ft_free_triple((void ****)&words);
-		free(scene->world);
+		free(scene->objects);
 		free(scene->lights);
 		return (complain_bool(MALLOC_ERROR));
 	}

@@ -25,7 +25,7 @@ bool	parse_cylinder(t_scene *scene, char **line, int *current_object)
 	const int	length = arrlen(line);
 	t_object	*object;
 
-	object = &scene->world[*current_object];
+	object = &scene->objects[*current_object];
 	if (length != 8
 		|| !parse_coord(line[1], &object->u.tube.center)
 		|| !parse_normalized_vector(line[2], &object->u.tube.axis)
@@ -40,8 +40,8 @@ bool	parse_cylinder(t_scene *scene, char **line, int *current_object)
 	object->u.tube.half_height *= 0.5;
 	object->u.tube.radius *= 0.5;
 	object->u.tube.bbox = bbox_infinite();
-	scene->world[*current_object + 1] = add_disk(object->u.tube, true);
-	scene->world[*current_object + 2] = add_disk(object->u.tube, false);
+	scene->objects[*current_object + 1] = add_disk(object->u.tube, true);
+	scene->objects[*current_object + 2] = add_disk(object->u.tube, false);
 	*current_object += SURFACES_CYLINDER;
 	return (true);
 }
@@ -51,7 +51,7 @@ bool	parse_plane(t_scene *scene, char **line, int *current_object)
 	const int	length = arrlen(line);
 	t_object	*object;
 
-	object = &scene->world[*current_object];
+	object = &scene->objects[*current_object];
 	if (length != 6
 		|| !parse_coord(line[1], &object->u.plane.coord)
 		|| !parse_normalized_vector(line[2], &object->u.plane.vector)
@@ -69,7 +69,7 @@ bool	parse_sphere(t_scene *scene, char **line, int *current_object)
 	const int	length = arrlen(line);
 	t_object	*object;
 
-	object = &scene->world[*current_object];
+	object = &scene->objects[*current_object];
 	if (length != 6
 		|| !parse_coord(line[1], &object->u.sphere.center)
 		|| !ft_atof(line[2], &object->u.sphere.radius)

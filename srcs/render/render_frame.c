@@ -23,7 +23,7 @@ static t_vec3	raytracing(t_ray ray, t_scene *scene, int depth)
 	t_ray					scattered;
 	t_vec3					color;
 
-	if (depth <= 0 || !hit_world(&hit, scene, &ray, start_interval))
+	if (depth <= 0 || !hit_objects(&hit, scene, &ray, start_interval))
 		return (scene->ambient.color);
 	color = get_color(scene, &hit, ray);
 	if (scatter(ray, hit, &scattered))

@@ -11,6 +11,8 @@ typedef bool	(*t_scatter_func)(t_ray, t_hit, t_ray *);
 
 bool			hit_bbox(t_hit *hit, t_bbox *bbox, t_ray *ray,
 					t_interval interval);
+bool			hit_bvh(t_hit *hit, t_bvh *bvh, t_ray *ray,
+					t_interval interval);
 bool			hit_disk(t_hit *hit, const t_disk *disk, t_ray *ray,
 					t_interval interval);
 bool			hit_plane(t_hit *hit, const t_plane *plane, t_ray *ray,
@@ -19,7 +21,7 @@ bool			hit_sphere(t_hit *hit, const t_sphere *sphere, t_ray *ray,
 					t_interval interval);
 bool			hit_tube(t_hit *hit, const t_tube *tube, t_ray *ray,
 					t_interval interval);
-bool			hit_world(t_hit *hit, t_scene *scene, t_ray *ray,
+bool			hit_objects(t_hit *hit, t_scene *scene, t_ray *ray,
 					t_interval interval);
 void			set_face_normal(t_hit *hit, t_ray *ray, t_vec3 *outward_normal);
 

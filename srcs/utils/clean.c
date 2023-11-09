@@ -22,7 +22,7 @@ void	free_data(t_data *data)
 {
 	ft_free_double((void ***)&data->pixel_colors);
 	free(data->pixel_coordinates);
-	free(data->scene.world);
+	free(data->scene.objects);
 	if (data->mlx.mlx != NULL)
 	{
 		if (data->mlx.img != NULL)

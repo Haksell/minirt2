@@ -27,11 +27,12 @@ LIBRARIES := -L$(PATH_LIBFT) -lft -lX11 -lXext -L$(PATH_MLX) -lmlx -lm
 
 FILENAMES += main
 FILENAMES += hit/hit_bbox
+FILENAMES += hit/hit_bvh
 FILENAMES += hit/hit_disk
 FILENAMES += hit/hit_plane
 FILENAMES += hit/hit_sphere
 FILENAMES += hit/hit_tube
-FILENAMES += hit/hit_world
+FILENAMES += hit/hit_objects
 FILENAMES += hit/set_face_normal
 FILENAMES += init/init_minilibx
 FILENAMES += init/init_multithreading

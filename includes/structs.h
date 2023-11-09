@@ -4,6 +4,7 @@
 // TODO: try vec3 of doubles
 typedef float			t_vec3 __attribute__((vector_size(16)));
 
+typedef struct s_bvh	t_bvh;
 typedef struct s_object	t_object;
 typedef struct s_thread	t_thread;
 
@@ -111,22 +112,14 @@ typedef struct s_tube {
 	t_bbox		bbox;
 }	t_tube;
 
-typedef struct s_bvh_node {
-	t_object	*left;
-	t_object	*right;
-	t_bbox		bbox;
-}	t_bvh_node;
-
 typedef enum e_object_type {
-	OBJECT_BVH_NODE = 0,
-	OBJECT_DISK,
+	OBJECT_DISK = 0,
 	OBJECT_PLANE,
 	OBJECT_SPHERE,
 	OBJECT_TUBE,
 }	t_object_type;
 
 typedef union u_object_union {
-	t_disk		bvh_node;
 	t_disk		disk;
 	t_plane		plane;
 	t_sphere	sphere;	
@@ -137,6 +130,14 @@ typedef struct s_object {
 	t_object_type	type;
 	t_object_union	u;
 }	t_object;
+
+typedef struct s_bvh {
+	bool		is_leaf;
+	t_object	*object;
+	t_bvh		*left;
+	t_bvh		*right;
+	t_bbox		bbox;
+}	t_bvh;
 
 /******************************************************************************/
 /*                                                                            */
@@ -188,7 +189,8 @@ typedef struct s_scene {
 	t_ambient	ambient;
 	t_camera	camera;
 	t_light		*lights;
-	t_object	*world;
+	t_object	*objects;
+	t_bvh		*bvh;
 	int			nb_obj;
 	int			nb_lights;
 }	t_scene;
